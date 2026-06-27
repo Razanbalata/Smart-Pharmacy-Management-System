@@ -13,7 +13,7 @@ class SupplierPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return in_array($user->role, ['admin', 'pharmacist']);
     }
 
     /**
@@ -29,7 +29,7 @@ class SupplierPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->role === 'admin';
     }
 
     /**
@@ -37,7 +37,7 @@ class SupplierPolicy
      */
     public function update(User $user, Supplier $supplier): bool
     {
-        return false;
+        return $user->role === 'admin';
     }
 
     /**
@@ -45,7 +45,7 @@ class SupplierPolicy
      */
     public function delete(User $user, Supplier $supplier): bool
     {
-        return false;
+        return $user->role === 'admin';
     }
 
     /**

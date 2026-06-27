@@ -1,19 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Suppliers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Supplier;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class SupplierController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $this->authorize('viewAny', Supplier::class);
+
+        $suppliers = Supplier::latest()->get();
+
+        return view('suppliers.index', compact('suppliers'));
     }
 
     /**
@@ -21,7 +28,9 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create', Supplier::class);
+
+        return view('suppliers.create');
     }
 
     /**
@@ -29,7 +38,9 @@ class SupplierController extends Controller
      */
     public function store(StoreSupplierRequest $request)
     {
-        //
+        Supplier::create($request->validated());
+
+        return redirect()->route('suppliers.index');
     }
 
     /**
@@ -45,7 +56,9 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
-        //
+        $this->authorize('update', $supplier);
+
+        return view('suppliers.edit', compact('supplier'));
     }
 
     /**
@@ -53,7 +66,9 @@ class SupplierController extends Controller
      */
     public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
-        //
+        $supplier->update($request->validated());
+
+        return redirect()->route('suppliers.index');
     }
 
     /**
@@ -61,6 +76,10 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        //
+        $this->authorize('delete', $supplier);
+
+        $supplier->delete();
+
+        return redirect()->route('suppliers.index');
     }
 }

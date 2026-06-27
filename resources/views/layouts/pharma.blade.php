@@ -5,8 +5,10 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>PharmaSmart Dashboard | Pharmacy Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         tailwind.config = {
@@ -143,60 +145,74 @@
 </head>
 
 <body class="bg-background text-on-background min-h-screen flex">
-    <aside class="w-[sidebar-width] h-screen sticky top-0 left-0 flex flex-col bg-surface-container-lowest dark:bg-surface-container-low border-r border-outline-variant dark:border-outline shadow-sm z-50">
+    <aside
+        class="w-[sidebar-width] h-screen sticky top-0 left-0 flex flex-col bg-surface-container-lowest dark:bg-surface-container-low border-r border-outline-variant dark:border-outline shadow-sm z-50">
         <div class="flex flex-col p-4 gap-stack-md h-full">
             <div class="mb-6 px-2">
                 <h1 class="font-display-lg text-display-lg font-bold text-primary dark:text-primary-container">
                     PharmaSmart</h1>
                 <p class="font-label-md text-label-md text-on-surface-variant">Admin Account</p>
             </div>
-            <button class="mb-4 flex items-center justify-center gap-2 bg-primary-container text-on-primary py-3 px-4 rounded-xl font-semibold active:scale-[0.98] transition-transform shadow-md">
+            <button
+                class="mb-4 flex items-center justify-center gap-2 bg-primary-container text-on-primary py-3 px-4 rounded-xl font-semibold active:scale-[0.98] transition-transform shadow-md">
                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add_circle</span>
                 New Sale
             </button>
             <nav class="flex-1 space-y-1">
-    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('dashboard') || request()->is('dashboard*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
-        href="{{ route('dashboard') }}">
-        <span class="material-symbols-outlined">dashboard</span>
-        <span class="font-label-md text-label-md">Dashboard</span>
-    </a>
-    
-    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('categories.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
-        href="{{ route('categories.index') }}">
-        <span class="material-symbols-outlined">category</span>
-        <span class="font-label-md text-label-md">Categories</span>
-    </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('dashboard') || request()->is('dashboard*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
+                    href="{{ route('dashboard') }}">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span class="font-label-md text-label-md">Dashboard</span>
+                </a>
 
-    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('sales.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
-        href="#">
-        <span class="material-symbols-outlined">point_of_sale</span>
-        <span class="font-label-md text-label-md">Sales</span>
-    </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('categories.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
+                    href="{{ route('categories.index') }}">
+                    <span class="material-symbols-outlined">category</span>
+                    <span class="font-label-md text-label-md">Categories</span>
+                </a>
 
-    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('purchases.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
-        href="#">
-        <span class="material-symbols-outlined">shopping_cart</span>
-        <span class="font-label-md text-label-md">Purchases</span>
-    </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('suppliers.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
+                    href="{{ route('suppliers.index') }}">
+                    <span class="material-symbols-outlined">group</span>
+                    <span class="font-label-md text-label-md">Suppliers</span>
+                </a>
 
-    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('inventory.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
-        href="#">
-        <span class="material-symbols-outlined">package_2</span>
-        <span class="font-label-md text-label-md">Inventory</span>
-    </a>
+                {{-- <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('products.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
+                    href="{{ route('products.index') }}">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <span class="font-label-md text-label-md">Products</span>
+                </a> --}}
 
-    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('reports.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
-        href="#">
-        <span class="material-symbols-outlined">analytics</span>
-        <span class="font-label-md text-label-md">Reports</span>
-    </a>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('sales.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined">point_of_sale</span>
+                    <span class="font-label-md text-label-md">Sales</span>
+                </a>
 
-    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('insights.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
-        href="#">
-        <span class="material-symbols-outlined">psychology_alt</span>
-        <span class="font-label-md text-label-md">AI Insights</span>
-    </a>
-</nav>
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('purchases.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="font-label-md text-label-md">Purchases</span>
+                </a>
+
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('inventory.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined">package_2</span>
+                    <span class="font-label-md text-label-md">Inventory</span>
+                </a>
+
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('reports.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined">analytics</span>
+                    <span class="font-label-md text-label-md">Reports</span>
+                </a>
+
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('insights.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined">psychology_alt</span>
+                    <span class="font-label-md text-label-md">AI Insights</span>
+                </a>
+            </nav>
             <div class="mt-auto pt-4 border-t border-outline-variant space-y-1">
                 <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200"
                     href="#">
@@ -222,24 +238,35 @@
     </aside>
 
     <main class="flex-1 flex flex-col h-screen overflow-y-auto scroll-hide">
-        <header class="h-16 w-full sticky top-0 z-40 bg-surface/95 backdrop-blur-md border-b border-outline-variant dark:border-outline">
+        <header
+            class="h-16 w-full sticky top-0 z-40 bg-surface/95 backdrop-blur-md border-b border-outline-variant dark:border-outline">
             <div class="flex justify-between items-center px-gutter w-full max-w-container-max mx-auto h-full">
                 <div class="flex items-center gap-4 flex-1">
-                    <div class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-primary rounded-lg transition-all">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-                        <input class="w-full bg-surface-container-low border-none rounded-lg pl-10 py-2 text-body-md focus:ring-0" placeholder="Search inventory, Rx, or reports (Cmd+K)" type="text" />
-                        <span class="absolute right-3 top-1/2 -translate-y-1/2 font-mono-sm text-mono-sm text-outline-variant px-1.5 py-0.5 border border-outline-variant rounded">⌘K</span>
+                    <div
+                        class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-primary rounded-lg transition-all">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                        <input
+                            class="w-full bg-surface-container-low border-none rounded-lg pl-10 py-2 text-body-md focus:ring-0"
+                            placeholder="Search inventory, Rx, or reports (Cmd+K)" type="text" />
+                        <span
+                            class="absolute right-3 top-1/2 -translate-y-1/2 font-mono-sm text-mono-sm text-outline-variant px-1.5 py-0.5 border border-outline-variant rounded">⌘K</span>
                     </div>
                     <div class="hidden md:flex gap-6 ml-4">
-                        <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Inventory Alerts</a>
-                        <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Recent Reports</a>
+                        <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors"
+                            href="#">Inventory Alerts</a>
+                        <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors"
+                            href="#">Recent Reports</a>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">notifications</button>
-                    <button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">history</button>
+                    <button
+                        class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">notifications</button>
+                    <button
+                        class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">history</button>
                     <div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
-                    <button class="bg-secondary/10 text-secondary px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-secondary/20 transition-colors">
+                    <button
+                        class="bg-secondary/10 text-secondary px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-secondary/20 transition-colors">
                         <span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
                         Scan Rx
                     </button>
