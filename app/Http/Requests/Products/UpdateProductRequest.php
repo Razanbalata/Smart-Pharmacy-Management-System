@@ -23,15 +23,31 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'sku' => 'required|unique:products,sku,' . $this->product->id,
+            'name' => 'required|string|max:255',
+
+            'sku' => 'required|string|unique:products,sku,' . $this->product->id,
+
+            'barcode' => 'nullable|string|unique:products,barcode' . $this->product->id,
+
+            'description' => 'nullable|string',
+
             'purchase_price' => 'required|numeric|min:0',
-            'selling_price' => 'required|numeric|min:0',
-            'stock_quantity' => 'integer|min:0',
-            'minimum_stock' => 'integer|min:0',
+
+            'selling_price' => 'required|numeric|min:0|gt:purchase_price',
+
+            'stock_quantity' => 'nullable|integer|min:0',
+
+            'minimum_stock' => 'nullable|integer|min:0',
+
+            'expiry_date' => 'nullable|date|after:today',
+
+            'batch_number' => 'nullable|string',
+
+            'status' => 'required|in:active,inactive',
+
             'category_id' => 'required|exists:categories,id',
+
             'supplier_id' => 'required|exists:suppliers,id',
-            'status' => 'required|in:active,inactive,discontinued',
         ];
     }
 }

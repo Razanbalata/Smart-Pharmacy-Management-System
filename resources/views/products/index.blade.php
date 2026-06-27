@@ -9,11 +9,67 @@
         </div>
         <div>
             <a href="{{ route('products.create') }}" 
-               class="inline-flex items-center gap-2 bg-primary text-white hover:bg-primary/90 px-4 py-2.5 rounded-xl font-medium shadow-sm transition-all duration-200">
+               class="inline-flex items-center gap-2 bg-primary text-white hover:bg-primary/90 px-5 py-2.5 rounded-xl font-medium shadow-sm transition-all duration-200">
                 <span class="material-symbols-outlined text-[20px]">add_shopping_cart</span>
                 <span>Add New Product</span>
             </a>
         </div>
+    </div>
+
+    <div class="bg-surface-container-low dark:bg-neutral-900/30 p-4 rounded-2xl border border-outline-variant/40 shadow-sm">
+        <form method="GET" action="{{ route('products.index') }}" class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+            
+            <div class="relative sm:col-span-4">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-on-surface-variant/70">
+                    <span class="material-symbols-outlined text-[20px]">search</span>
+                </span>
+                <input 
+                    type="text" 
+                    name="search" 
+                    value="{{ request('search') }}" 
+                    placeholder="Search by name or SKU..." 
+                    class="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-outline-variant/60 bg-transparent text-on-surface dark:text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+                >
+            </div>
+
+            <div class="relative sm:col-span-3">
+                <select name="category" class="w-full pl-4 pr-10 py-2 text-sm rounded-xl border border-outline-variant/60 bg-surface-container-low dark:bg-neutral-900 text-on-surface dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none cursor-pointer">
+                    <option value="">All Categories</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">expand_more</span></div>
+            </div>
+
+            <div class="relative sm:col-span-3">
+                <select name="supplier" class="w-full pl-4 pr-10 py-2 text-sm rounded-xl border border-outline-variant/60 bg-surface-container-low dark:bg-neutral-900 text-on-surface dark:text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none cursor-pointer">
+                    <option value="">All Suppliers</option>
+                    @foreach($suppliers as $supplier)
+                        <option value="{{ $supplier->id }}" {{ request('supplier') == $supplier->id ? 'selected' : '' }}>
+                            {{ $supplier->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">expand_more</span></div>
+            </div>
+
+            <div class="flex gap-2 sm:col-span-2 w-full">
+                <button type="submit" class="flex-1 bg-gray-900 hover:bg-gray-800 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-white font-medium text-sm py-2 px-4 rounded-xl transition duration-150 shadow-sm flex items-center justify-center gap-1">
+                    <span class="material-symbols-outlined text-[18px]">filter_list</span>
+                    <span>Filter</span>
+                </button>
+                
+                @if(request('search') || request('category') || request('supplier'))
+                    <a href="{{ route('products.index') }}" class="p-2 bg-error/10 text-error hover:bg-error/20 rounded-xl transition-colors flex items-center justify-center" title="Clear Filters">
+                        <span class="material-symbols-outlined text-[20px]">filter_alt_off</span>
+                    </a>
+                @endif
+            </div>
+
+        </form>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
@@ -141,6 +197,13 @@
                 </tbody>
             </table>
         </div>
+        
+        {{-- هنا يمكنك إضافة الـ Pagination الترقيم أسفل الجدول عند الحاجة --}}
+        @if(method_exists($products, 'links') && $products->hasPages())
+            <div class="px-6 py-4 border-t border-outline-variant/40 bg-surface-container dark:bg-neutral-800/30">
+                {{ $products->withQueryString()->links() }}
+            </div>
+        @endif
     </div>
 </div>
 @endsection

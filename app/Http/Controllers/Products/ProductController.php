@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Supplier;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -17,11 +18,37 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Product::class);
-        $products = Product::with(['category', 'supplier'])->latest()->get();
-        return view('products.index', compact('products'));
+        $query = Product::with(['category', 'supplier']);
+
+        // Search
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', "%{$request->search}%")
+                    ->orWhere('sku', 'like', "%{$request->search}%");
+            });
+        }
+
+        // Filter by Category
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        // Filter by Supplier
+        if ($request->filled('supplier')) {
+            $query->where('supplier_id', $request->supplier);
+        }
+
+        $products = $query->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $categories = Category::all();
+        $suppliers = Supplier::all();
+
+        return view('products.index', compact('products', 'categories', 'suppliers'));
     }
 
     /**
@@ -43,7 +70,7 @@ class ProductController extends Controller
     {
         Product::create($request->validated());
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('success', 'Product created successfully');
     }
 
     /**
@@ -74,7 +101,7 @@ class ProductController extends Controller
     {
         $product->update($request->validated());
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('success', 'Product updated successfully');
     }
 
     /**
