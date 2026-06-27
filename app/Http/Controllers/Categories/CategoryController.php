@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Categories;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Categories\StoreCategoryRequest;
 use App\Models\Category;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -13,11 +14,13 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Category::class);
 
-        $categories = Category::latest()->get();
+        $query = Category::query();
+
+        $categories = $query->search($request->search)->latest()->paginate(4)->withQueryString();
 
         return view('categories.index', compact('categories'));
     }
@@ -79,8 +82,11 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $this->authorize('delete', $category);
+        if ($category->products()->exists()) {
+            return back()->with('error', 'Cannot delete category with products.');
+        }
         $category->delete();
 
-        return redirect()->route('categories.index');
+        return redirect()->route('categories.index')->with('success', 'Category deleted successfully');;
     }
 }
