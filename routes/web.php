@@ -8,7 +8,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'active'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -25,4 +25,5 @@ require __DIR__.'/purchases.php';
 require __DIR__.'/sales.php';
 require __DIR__.'/inventory.php';
 require __DIR__.'/reports.php';
+require __DIR__.'/users.php';
 require __DIR__.'/ai.php';
