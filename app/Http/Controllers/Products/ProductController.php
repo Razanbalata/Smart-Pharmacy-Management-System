@@ -68,6 +68,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        $this->authorize('create', Product::class);
         Product::create($request->validated());
 
         return redirect()->route('products.index')->with('success', 'Product created successfully');
@@ -99,6 +100,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+        $this->authorize('update', $product);
         $product->update($request->validated());
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully');
@@ -110,7 +112,9 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $this->authorize('delete', $product);
-
+        if ($product->stock_quantity > 0) {
+            return back()->with('error', 'Cannot delete product with stock.');
+        }
         $product->delete();
 
         return redirect()->route('products.index');

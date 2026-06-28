@@ -40,4 +40,10 @@ class Product extends Model
     {
         return $this->belongsTo(Supplier::class);
     }
+
+    // لاحقًا في Stock System
+    // public function stockMovements()
+    // {
+    //     return $this->hasMany(StockMovement::class);
+    // }
 }

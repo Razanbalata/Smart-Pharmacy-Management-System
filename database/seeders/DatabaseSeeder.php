@@ -21,9 +21,25 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        // User::create([
+        //     'name' => 'System Admin',
+        //     'email' => 'admin@pharma.com',
+        //     'password' => Hash::make('password123'),
+        //     'role' => 'admin',
+        //     'status' => 'active',
+        // ]);
+
+User::create([
+            'name' => 'System pharmasist',
+            'email' => 'pharmas@pharma.com',
+            'password' => Hash::make('password123'),
+            'role' => 'admin',
+            'status' => 'active',
+        ]);
+
         User::create([
-            'name' => 'System Admin',
-            'email' => 'admin@pharma.com',
+            'name' => 'System casheir',
+            'email' => 'cashier@pharma.com',
             'password' => Hash::make('password123'),
             'role' => 'admin',
             'status' => 'active',

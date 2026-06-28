@@ -7,6 +7,7 @@ use App\Models\Supplier;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
@@ -14,11 +15,11 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Supplier::class);
-
-        $suppliers = Supplier::latest()->get();
+        $query = Supplier::query();
+        $suppliers = Supplier::query()->search($request->search)->latest()->paginate(4)->withQueryString();
 
         return view('suppliers.index', compact('suppliers'));
     }
@@ -38,9 +39,10 @@ class SupplierController extends Controller
      */
     public function store(StoreSupplierRequest $request)
     {
+        $this->authorize('create', Supplier::class);
         Supplier::create($request->validated());
 
-        return redirect()->route('suppliers.index');
+        return redirect()->route('suppliers.index')->with('success', 'Supplier created successfully');
     }
 
     /**
@@ -66,9 +68,10 @@ class SupplierController extends Controller
      */
     public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
+        $this->authorize('update', $supplier);
         $supplier->update($request->validated());
 
-        return redirect()->route('suppliers.index');
+        return redirect()->route('suppliers.index')->with('success', 'Supplier updated successfully');
     }
 
     /**
@@ -77,9 +80,11 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier)
     {
         $this->authorize('delete', $supplier);
-
+        if ($supplier->products()->exists()) {
+            return back()->with('error', 'Cannot delete supplier with products.');
+        }
         $supplier->delete();
 
-        return redirect()->route('suppliers.index');
+        return redirect()->route('suppliers.index')->with('success', 'Supplier deleted successfully');
     }
 }
