@@ -41,9 +41,18 @@ class Product extends Model
         return $this->belongsTo(Supplier::class);
     }
 
-    // لاحقًا في Stock System
-    // public function stockMovements()
-    // {
-    //     return $this->hasMany(StockMovement::class);
-    // }
+    public function stockMovements()
+    {
+        return $this->hasMany(StockMovement::class);
+    }
+
+    public function isLowStock(): bool
+    {
+        return $this->stock_quantity <= $this->minimum_stock;
+    }
+
+    public function scopeLowStock($query)
+    {
+        return $query->whereColumn('stock_quantity', '<=', 'minimum_stock');
+    }
 }

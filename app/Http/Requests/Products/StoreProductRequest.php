@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Products;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -12,7 +12,7 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -39,7 +39,7 @@ class StoreProductRequest extends FormRequest
 
             'minimum_stock' => 'nullable|integer|min:0',
 
-            'expiry_date' => 'nullable|date|after:today',
+            'expiration_date' => 'nullable|date|after:today',
 
             'batch_number' => 'nullable|string',
 

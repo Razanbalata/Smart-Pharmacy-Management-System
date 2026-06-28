@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         //     'status' => 'active',
         // ]);
 
-User::create([
+        User::create([
             'name' => 'System pharmasist',
             'email' => 'pharmas@pharma.com',
             'password' => Hash::make('password123'),

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Products;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Products\StoreProductRequest;
+use App\Http\Requests\Products\UpdateProductRequest;
 use App\Models\Product;
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Supplier;
+use App\Services\StockService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class ProductController extends Controller
     {
         $this->authorize('viewAny', Product::class);
         $query = Product::with(['category', 'supplier']);
-
+        $lowStockProducts = Product::lowStock()->get();
         // Search
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
@@ -48,7 +49,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $suppliers = Supplier::all();
 
-        return view('products.index', compact('products', 'categories', 'suppliers'));
+        return view('products.index', compact('products', 'categories', 'suppliers', 'lowStockProducts'));
     }
 
     /**
@@ -66,10 +67,23 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request, StockService $stockService)
     {
         $this->authorize('create', Product::class);
-        Product::create($request->validated());
+        $data = $request->validated();
+
+        $product = Product::create($data);
+
+        // 2. تسجيل المخزون الأولي عبر Service
+        if ($data['stock_quantity'] > 0) {
+            $stockService->addStock(
+                $product,
+                $data['stock_quantity'],
+                'initial',
+                auth()->id(),
+                'Initial stock on product creation'
+            );
+        }
 
         return redirect()->route('products.index')->with('success', 'Product created successfully');
     }
@@ -118,5 +132,14 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('products.index');
+    }
+
+    public function lowStock()
+    {
+        $this->authorize('viewAny', Product::class);
+
+        $products = Product::lowStock()->get();
+
+        return view('products.low-stock', compact('products'));
     }
 }
