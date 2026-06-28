@@ -11,12 +11,11 @@ class StockService
     public function addStock(
         Product $product,
         int $quantity,
-        string $type,
         int $userId,
         ?string $reason = null,
         ?string $notes = null
     ) {
-        DB::transaction(function () use ($product, $type, $userId, $quantity, $reason, $notes) {
+        DB::transaction(function () use ($product, $userId, $quantity, $reason, $notes) {
             $product->increment(
                 'stock_quantity',
                 $quantity,
@@ -26,9 +25,9 @@ class StockService
             StockMovement::create([
                 'product_id' => $product->id,
                 'user_id' => $userId,
-                'type' => $type,
+                'type' => 'in',
                 'quantity' => $quantity,
-                'reason' => $reason,
+                'reason' => $reason ?? 'Stock IN',
                 'notes' => $notes,
             ]);
         });
@@ -37,13 +36,12 @@ class StockService
     public function removeStock(
         Product $product,
         int $quantity,
-        string $type,
         int $userId,
         ?string $reason = null,
         ?string $notes = null
     ): void {
         // It ensures that a set of related database operations either all succeed together or all fail together, preventing partial and inconsistent data updates.
-        DB::transaction(function () use ($product, $type, $userId, $quantity, $reason, $notes) {
+        DB::transaction(function () use ($product, $userId, $quantity, $reason, $notes) {
             if ($product->stock_quantity < $quantity) {
                 throw new \Exception(
                     'Insufficient stock'
@@ -59,7 +57,7 @@ class StockService
             StockMovement::create([
                 'product_id' => $product->id,
                 'user_id' => $userId,
-                'type' => $type,
+                'type' => 'out',
                 'quantity' => $quantity,
                 'reason' => $reason,
                 'notes' => $notes,

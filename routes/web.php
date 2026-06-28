@@ -21,6 +21,7 @@ require __DIR__.'/dashboard.php';
 require __DIR__.'/categories.php';
 require __DIR__.'/suppliers.php';
 require __DIR__.'/products.php';
+require __DIR__.'/stock.php';
 require __DIR__.'/purchases.php';
 require __DIR__.'/sales.php';
 require __DIR__.'/inventory.php';

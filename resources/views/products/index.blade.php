@@ -45,7 +45,8 @@
                     </select>
                     <div
                         class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-on-surface-variant">
-                        <span class="material-symbols-outlined text-[18px]">expand_more</span></div>
+                        <span class="material-symbols-outlined text-[18px]">expand_more</span>
+                    </div>
                 </div>
 
                 <div class="relative sm:col-span-3">
@@ -61,7 +62,8 @@
                     </select>
                     <div
                         class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-on-surface-variant">
-                        <span class="material-symbols-outlined text-[18px]">expand_more</span></div>
+                        <span class="material-symbols-outlined text-[18px]">expand_more</span>
+                    </div>
                 </div>
 
                 <div class="flex gap-2 sm:col-span-2 w-full">
@@ -131,9 +133,24 @@
             class="bg-surface-container-low dark:bg-neutral-900/30 rounded-2xl border border-outline-variant/40 overflow-hidden shadow-sm">
             <div class="overflow-x-auto">
                 @if ($lowStockProducts->count() > 0)
-                    <div style="background:#dc3545; color:white; padding:12px; margin-bottom:15px; border-radius:6px;">
-                        ⚠️ Low Stock Alert:
-                        {{ $lowStockProducts->count() }} products need restocking
+                    <div
+                        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-error/10 border border-error/20 p-4 mb-6 rounded-2xl shadow-sm transition-all animate-pulse">
+                        <div class="flex items-center gap-3 text-error">
+                            <span class="material-symbols-outlined text-[24px]">warning</span>
+                            <div class="text-sm font-semibold tracking-wide">
+                                Low Stock Alert: <span
+                                    class="font-bold font-mono bg-error/10 px-2 py-0.5 rounded-md">{{ $lowStockProducts->count() }}</span>
+                                products need restocking urgently.
+                            </div>
+                        </div>
+
+                        <div class="flex shrink-0">
+                            <a href="{{ route('products.low-stock') }}"
+                                class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 bg-error hover:bg-error-container text-white hover:text-on-error-container text-xs font-bold px-4 py-2 rounded-xl shadow-sm hover:shadow transition-all duration-200">
+                                <span class="material-symbols-outlined text-[16px]">visibility</span>
+                                <span>View Alert List</span>
+                            </a>
+                        </div>
                     </div>
                 @endif
                 <table class="w-full text-left border-collapse">
