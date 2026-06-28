@@ -36,7 +36,7 @@
                             class="material-symbols-outlined text-[14px]">trending_up</span></span>
                 </div>
                 <p class="font-label-md text-label-md text-on-surface-variant mb-1">Total Products</p>
-                <h3 class="font-display-lg text-display-lg font-bold">1,284</h3>
+                <h3 class="font-display-lg text-display-lg font-bold">{{ $summary['total_products'] }}</h3>
             </div>
             <!-- Total Sales Today -->
             <div
@@ -62,7 +62,8 @@
                             class="material-symbols-outlined text-[14px]">arrow_downward</span></span>
                 </div>
                 <p class="font-label-md text-label-md text-on-surface-variant mb-1">Low Stock Items</p>
-                <h3 class="font-display-lg text-display-lg font-bold text-tertiary-container">14</h3>
+                <h3 class="font-display-lg text-display-lg font-bold text-tertiary-container">
+                    {{ $lowStockProducts->count() }}</h3>
             </div>
             <!-- Expired Count -->
             <div
