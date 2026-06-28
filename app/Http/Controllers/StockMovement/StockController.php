@@ -5,6 +5,7 @@ namespace App\Http\Controllers\StockMovement;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\StockMovement;
+use App\Services\StockService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 
@@ -34,5 +35,32 @@ class StockController extends Controller
         $movements = $query->latest()->paginate(20);
 
         return view('stock.history', compact('movements'));
+    }
+
+    public function showAdjustForm()
+    {
+        $products = Product::all();
+
+        return view('stock.adjust', compact('products'));
+    }
+
+    public function adjust(Request $request, StockService $stockService)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity'   => 'required|integer|min:0',
+            'reason'     => 'nullable|string'
+        ]);
+
+        $product = Product::findOrFail($request->product_id);
+
+        $stockService->adjustStock(
+            $product,
+            $request->quantity,
+            auth()->id(),
+            $request->reason
+        );
+
+        return back()->with('success', 'Stock adjusted successfully');
     }
 }

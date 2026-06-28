@@ -64,4 +64,30 @@ class StockService
             ]);
         });
     }
+
+
+    public function adjustStock(Product $product, int $newQuantity, $userId, $reason = null)
+    {
+        DB::transaction(function () use ($product, $newQuantity, $userId, $reason) {
+
+            $oldQuantity = $product->stock_quantity;
+
+            $difference = $newQuantity - $oldQuantity;
+
+            // تحديث المخزون
+            $product->update([
+                'stock_quantity' => $newQuantity
+            ]);
+
+            // تسجيل الحركة
+            StockMovement::create([
+                'product_id' => $product->id,
+                'user_id'    => $userId,
+                'type'       => 'adjustment',
+                'quantity'   => $difference,
+                'reason'     => $reason ?? 'Stock Adjustment',
+                'notes'      => "Old: $oldQuantity | New: $newQuantity"
+            ]);
+        });
+    }
 }
