@@ -153,11 +153,11 @@
                     PharmaSmart</h1>
                 <p class="font-label-md text-label-md text-on-surface-variant">Admin Account</p>
             </div>
-            <button
-                class="mb-4 flex items-center justify-center gap-2 bg-primary-container text-on-primary py-3 px-4 rounded-xl font-semibold active:scale-[0.98] transition-transform shadow-md">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add_circle</span>
-                New Sale
-            </button>
+            <a href="{{ route('sales.create') }}"
+   class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition">
+    <span class="material-symbols-outlined">add</span>
+    New Sale
+</a>
             <nav class="flex-1 space-y-1">
                 <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('dashboard') || request()->is('dashboard*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
                     href="{{ route('dashboard') }}">
@@ -184,7 +184,7 @@
                 </a>
 
                 <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('sales.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
-                    href="#">
+                    href="{{ route('sales.index') }}">
                     <span class="material-symbols-outlined">point_of_sale</span>
                     <span class="font-label-md text-label-md">Sales</span>
                 </a>
