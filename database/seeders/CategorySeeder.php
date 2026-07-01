@@ -3,46 +3,86 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
 {
-
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $categories = [
+
             [
-                'name' => 'Pain Relievers',
-                'description' => 'Medications used to relieve pain and reduce fever.',
+                'name' => 'Pain Relief',
+                'description' => 'Medications used to relieve pain and inflammation.',
+                'status' => 'active',
             ],
+
             [
                 'name' => 'Antibiotics',
-                'description' => 'Medicines used to treat bacterial infections.',
+                'description' => 'Drugs used to treat bacterial infections.',
+                'status' => 'active',
             ],
+
             [
                 'name' => 'Vitamins & Supplements',
-                'description' => 'Dietary supplements and vitamins.',
+                'description' => 'Nutritional supplements to support health.',
+                'status' => 'active',
             ],
+
             [
-                'name' => 'Cold & Flu',
-                'description' => 'Cold, cough and flu medications.',
+                'name' => 'Diabetes Care',
+                'description' => 'Medications and tools for diabetes management.',
+                'status' => 'active',
             ],
+
             [
-                'name' => 'Medical Devices',
-                'description' => 'Medical equipment and diagnostic devices.',
+                'name' => 'Heart & Blood Pressure',
+                'description' => 'Cardiovascular medications.',
+                'status' => 'active',
+            ],
+
+            [
+                'name' => 'Digestive System',
+                'description' => 'Medicines for stomach and digestion problems.',
+                'status' => 'active',
+            ],
+
+            [
+                'name' => 'Skin Care',
+                'description' => 'Creams and treatments for skin conditions.',
+                'status' => 'active',
+            ],
+
+            [
+                'name' => 'Baby Care',
+                'description' => 'Products specially designed for babies.',
+                'status' => 'active',
+            ],
+
+            [
+                'name' => 'Medical Supplies',
+                'description' => 'Basic medical tools and supplies.',
+                'status' => 'active',
+            ],
+
+            [
+                'name' => 'Personal Care',
+                'description' => 'Daily hygiene and personal health products.',
+                'status' => 'active',
+            ],
+
+            [
+                'name' => 'Respiratory Care',
+                'description' => 'Medicines for respiratory conditions.',
+                'status' => 'active',
             ],
         ];
+
         foreach ($categories as $category) {
+
             Category::updateOrCreate(
                 ['name' => $category['name']],
-                [
-                    'description' => $category['description'],
-                    'status' => 'active',
-                ]
+                $category
             );
         }
     }

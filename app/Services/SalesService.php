@@ -47,7 +47,7 @@ class SalesService
 
     public function recalculateTotals(Sale $sale)
     {
-        $subtotal = $sale->items->sum('subtotal');
+        $subtotal = $sale->items()->sum('subtotal');
 
         $sale->update([
             'subtotal' => $subtotal,

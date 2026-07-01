@@ -17,11 +17,9 @@ class StockService
         ?string $notes = null
     ) {
         DB::transaction(function () use ($product, $userId, $type, $quantity, $reason, $notes) {
-            $product->increment(
-                'stock_quantity',
-                $quantity,
-                ['updated_at' => now()]
-            );
+            $product->update([
+                'stock_quantity' => $product->stock_quantity + $quantity
+            ]);
 
             StockMovement::create([
                 'product_id' => $product->id,
@@ -50,11 +48,9 @@ class StockService
                 );
             }
 
-            $product->decrement(
-                'stock_quantity',
-                $quantity,
-                ['updated_at' => now()]
-            );
+            $product->update([
+                'stock_quantity' => $product->stock_quantity - $quantity
+            ]);
 
             StockMovement::create([
                 'product_id' => $product->id,
@@ -73,6 +69,10 @@ class StockService
         DB::transaction(function () use ($product, $newQuantity, $userId, $reason) {
 
             $oldQuantity = $product->stock_quantity;
+
+            if ($newQuantity < 0) {
+                throw new \Exception("Stock cannot be negative");
+            }
 
             $difference = $newQuantity - $oldQuantity;
 
