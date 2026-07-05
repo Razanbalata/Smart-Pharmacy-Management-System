@@ -13,7 +13,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::all()
+            ->where('pharmacy_id', auth()->user()->pharmacy_id);
         return view('users.index', compact('users'));
     }
 
@@ -35,6 +36,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
             'role' => 'required',
+            
         ]);
 
         User::create([

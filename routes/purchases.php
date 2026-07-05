@@ -3,7 +3,7 @@
 use App\Http\Controllers\Purchases\PurchaseOrderController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'active'])->group(function () {
+Route::middleware(['auth', 'active','pharmacy'])->group(function () {
 
     Route::get('/purchases', [PurchaseOrderController::class, 'index'])->name('purchase.index');
     Route::get('/purchases/create', [PurchaseOrderController::class, 'create'])->name('purchase.create');

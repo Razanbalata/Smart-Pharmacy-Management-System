@@ -18,4 +18,4 @@ Route::prefix('sales')->name('sales.')->group(function () {
     Route::post('/{sale}/complete', [SaleController::class, 'complete'])->name('complete');
 
     Route::post('/{sale}/cancel', [SaleController::class, 'cancel'])->name('cancel');
-});
+})->middleware(['auth', 'active','pharmacy']);

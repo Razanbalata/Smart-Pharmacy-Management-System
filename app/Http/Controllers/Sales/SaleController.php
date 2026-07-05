@@ -7,6 +7,7 @@ use App\Http\Requests\AddSaleItemRequest;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleItem;
+use App\Models\Traits\BelongsToPharmacy;
 use App\Services\SalesService;
 use App\Services\StockService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 class SaleController extends Controller
 {
     use AuthorizesRequests;
+    use BelongsToPharmacy;
 
     public function index()
     {
