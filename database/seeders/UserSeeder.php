@@ -14,7 +14,6 @@ class UserSeeder extends Seeder
 
             [
                 'name' => 'Ahmad Khalil',
-                'username' => 'pharmacist1',
                 'email' => 'pharmacist1@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'pharmacist',
@@ -22,7 +21,6 @@ class UserSeeder extends Seeder
 
             [
                 'name' => 'Lina Nasser',
-                'username' => 'pharmacist2',
                 'email' => 'pharmacist2@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'pharmacist',
@@ -30,7 +28,6 @@ class UserSeeder extends Seeder
 
             [
                 'name' => 'Omar Hasan',
-                'username' => 'pharmacist3',
                 'email' => 'pharmacist3@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'pharmacist',
@@ -38,7 +35,6 @@ class UserSeeder extends Seeder
 
             [
                 'name' => 'Sara Ali',
-                'username' => 'cashier1',
                 'email' => 'cashier1@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'cashier',
@@ -46,7 +42,6 @@ class UserSeeder extends Seeder
 
             [
                 'name' => 'Mohammad Salem',
-                'username' => 'cashier2',
                 'email' => 'cashier2@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'cashier',
@@ -54,7 +49,6 @@ class UserSeeder extends Seeder
 
             [
                 'name' => 'Noor Ahmad',
-                'username' => 'cashier3',
                 'email' => 'cashier3@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'cashier',

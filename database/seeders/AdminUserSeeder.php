@@ -18,7 +18,6 @@ class AdminUserSeeder extends Seeder
             ['email' => 'admin@pharmacy.com'],
             [
                 'name' => 'System Administrator',
-                'username' => 'admin',
                 'email' => 'admin@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'admin',
