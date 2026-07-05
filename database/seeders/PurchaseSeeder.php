@@ -24,7 +24,7 @@ class PurchaseSeeder extends Seeder
             $purchase = PurchaseOrder::create([
                 'supplier_id' => $supplier->id,
                 'user_id' => $user->id,
-                'subtotal' => 0,
+                'total_cost' => 0,
                 'status' => 'received',
             ]);
 
@@ -44,8 +44,7 @@ class PurchaseSeeder extends Seeder
                 $purchase->items()->create([
                     'product_id' => $product->id,
                     'quantity' => $quantity,
-                    'unit_price' => $unitPrice,
-                    'subtotal' => $itemSubtotal,
+                    'cost' => $unitPrice,
                 ]);
 
                 // 🔥 مهم جدًا: تحديث المخزون
@@ -53,7 +52,7 @@ class PurchaseSeeder extends Seeder
             }
 
             $purchase->update([
-                'subtotal' => $subtotal,
+                'total_cost' => $subtotal,
             ]);
         }
     }

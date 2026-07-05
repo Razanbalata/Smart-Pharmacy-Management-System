@@ -43,6 +43,7 @@ class UserController extends Controller
             'password' => bcrypt($request->password),
             'role' => $request->role,
             'status' => 'active',
+            'pharmacy_id' => auth()->user()->pharmacy_id,
         ]);
 
         return redirect()->route('users.index');
@@ -81,6 +82,8 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
+            'status' => $request->status,
+            'pharmacy_id' => auth()->user()->pharmacy_id,
         ]);
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
@@ -94,6 +97,7 @@ class UserController extends Controller
         if (auth()->id() === $user->id) {
             return redirect()->route('users.index')->with('error', 'You cannot delete your own account.');
         }
+
 
         $user->delete();
 

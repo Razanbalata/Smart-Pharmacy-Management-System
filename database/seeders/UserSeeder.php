@@ -2,21 +2,34 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pharmacy;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
+
+
+
     public function run(): void
     {
+        $pharmacy = Pharmacy::first();
         $users = [
 
+        [
+                'name' => 'Ahmad Khalil',
+                'email' => 'pharmacist1@pharmacy.com',
+                'password' => Hash::make('password'),
+                'role' => 'admin',
+                'pharmacy_id' => $pharmacy->id,
+            ],
             [
                 'name' => 'Ahmad Khalil',
                 'email' => 'pharmacist1@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'pharmacist',
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -24,6 +37,7 @@ class UserSeeder extends Seeder
                 'email' => 'pharmacist2@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'pharmacist',
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -31,6 +45,7 @@ class UserSeeder extends Seeder
                 'email' => 'pharmacist3@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'pharmacist',
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -38,6 +53,7 @@ class UserSeeder extends Seeder
                 'email' => 'cashier1@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'cashier',
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -45,6 +61,7 @@ class UserSeeder extends Seeder
                 'email' => 'cashier2@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'cashier',
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -52,6 +69,7 @@ class UserSeeder extends Seeder
                 'email' => 'cashier3@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'cashier',
+                'pharmacy_id' => $pharmacy->id,
             ],
         ];
 
