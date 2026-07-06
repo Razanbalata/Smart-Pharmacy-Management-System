@@ -215,7 +215,7 @@
             </nav>
             <div class="mt-auto pt-4 border-t border-outline-variant space-y-1">
                 <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200"
-                    href="#">
+                    href="{{ route('pharmacy.settings') }}">
                     <span class="material-symbols-outlined">settings</span>
                     <span class="font-label-md text-label-md">Settings</span>
                 </a>
