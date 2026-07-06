@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\Traits\BelongsToPharmacy;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +14,6 @@ class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -24,6 +25,7 @@ class User extends Authenticatable
         'password',
         'role',
         'status',
+        'pharmacy_id',
     ];
 
     /**
@@ -52,5 +54,25 @@ class User extends Authenticatable
     public function stockMovements()
     {
         return $this->hasMany(StockMovement::class);
+    }
+
+    public function pharmacy()
+    {
+        return $this->belongsTo(Pharmacy::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isPharmacist(): bool
+    {
+        return $this->role === 'pharmacist';
+    }
+
+    public function isCashier(): bool
+    {
+        return $this->role === 'cashier';
     }
 }

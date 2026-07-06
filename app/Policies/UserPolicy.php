@@ -20,15 +20,17 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return false;
+        return $user->role === 'admin'
+        || $user->pharmacy_id === $model->pharmacy_id;
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user,User $model): bool
     {
-        return $user->role === 'admin';
+        return $user->role === 'admin'
+        || $user->pharmacy_id === $model->pharmacy_id;
     }
 
     /**
@@ -36,7 +38,8 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-         return $user->role === 'admin';
+         return $user->role === 'admin'
+         || $user->pharmacy_id === $model->pharmacy_id;
     }
 
     /**
@@ -44,7 +47,8 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-         return $user->role === 'admin';
+         return $user->role === 'admin'
+         || $user->pharmacy_id === $model->pharmacy_id;
     }
 
     /**

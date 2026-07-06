@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Traits\BelongsToPharmacy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -11,6 +13,7 @@ class Product extends Model
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory;
     use SoftDeletes;
+    use BelongsToPharmacy;
 
     protected $fillable = [
         'name',
@@ -54,5 +57,10 @@ class Product extends Model
     public function scopeLowStock($query)
     {
         return $query->whereColumn('stock_quantity', '<=', 'minimum_stock');
+    }
+
+    public function saleItems(): HasMany
+    {
+        return $this->hasMany(SaleItem::class);
     }
 }

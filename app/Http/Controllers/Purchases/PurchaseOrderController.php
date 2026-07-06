@@ -7,6 +7,7 @@ use App\Http\Requests\Purchase\StorePurchaseRequest;
 use App\Models\Product;
 use App\Models\PurchaseOrder;
 use App\Models\Supplier;
+use App\Models\Traits\BelongsToPharmacy;
 use App\Services\PurchaseService;
 use App\Services\StockService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 class PurchaseOrderController extends Controller
 {
     use AuthorizesRequests;
+    use BelongsToPharmacy;
 
     public function index()
     {
