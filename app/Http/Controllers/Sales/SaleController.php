@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 class SaleController extends Controller
 {
     use AuthorizesRequests;
-    use BelongsToPharmacy;
+    //use BelongsToPharmacy;
 
     public function index()
     {
@@ -36,8 +36,10 @@ class SaleController extends Controller
 
     public function edit(Sale $sale)
     {
-        $products = Product::all();
-
+        // dd($sale->items);
+        $products = Product::where('pharmacy_id', auth()->user()->pharmacy_id)
+            ->get();
+        // dd($sale);
         $sale->load('items.product');
 
         return view('sales.edit', compact('sale', 'products'));
@@ -59,7 +61,7 @@ class SaleController extends Controller
         return back()->with('success', 'Item added successfully');
     }
 
-public function removeItem(SaleItem $item, SalesService $service)
+    public function removeItem(SaleItem $item, SalesService $service)
     {
         $this->authorize('addItem', $item->sale);
 
@@ -68,11 +70,11 @@ public function removeItem(SaleItem $item, SalesService $service)
         return back()->with('success', 'Item removed successfully.');
     }
 
-    public function complete(Sale $sale, SalesService $service,StockService $stockService)
+    public function complete(Sale $sale, SalesService $service, StockService $stockService)
     {
         $this->authorize('complete', $sale);
 
-        $service->completeSale($sale,$stockService);
+        $service->completeSale($sale, $stockService);
 
         return redirect()
             ->route('sales.index')
@@ -89,5 +91,4 @@ public function removeItem(SaleItem $item, SalesService $service)
             ->route('sales.index')
             ->with('success', 'Sale cancelled successfully.');
     }
-
 }

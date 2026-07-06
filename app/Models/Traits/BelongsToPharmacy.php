@@ -7,17 +7,17 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait BelongsToPharmacy
 {
-    protected static function bootBelongsToPharmacy()
+    protected static function booted()
     {
-        static::addGlobalScope('pharmacy', function (Builder $builder) {
-            if (pharmacy_id()) {
-                $builder->where('pharmacy_id', pharmacy_id());
+        static::addGlobalScope('pharmacy', function ($query) {
+            if (auth()->check()) {
+                $query->where('pharmacy_id', auth()->user()->pharmacy_id);
             }
         });
 
         static::creating(function ($model) {
-            if (pharmacy_id()) {
-                $model->pharmacy_id = pharmacy_id();
+            if (auth()->check()) {
+                $model->pharmacy_id = auth()->user()->pharmacy_id;
             }
         });
     }
