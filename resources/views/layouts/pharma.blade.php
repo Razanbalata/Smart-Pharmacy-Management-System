@@ -206,7 +206,7 @@
                 </a>
 
                 <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('inventory.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
-                    href="#">
+                    href="{{ route('inventory.index') }}">
                     <span class="material-symbols-outlined">package_2</span>
                     <span class="font-label-md text-label-md">Inventory</span>
                 </a>
@@ -217,10 +217,10 @@
                     <span class="font-label-md text-label-md">Reports</span>
                 </a>
 
-                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('insights.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
-                    href="#">
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('stock.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
+                    href="{{ route('stock.history') }}">
                     <span class="material-symbols-outlined">psychology_alt</span>
-                    <span class="font-label-md text-label-md">AI Insights</span>
+                    <span class="font-label-md text-label-md">Stock</span>
                 </a>
             </nav>
             

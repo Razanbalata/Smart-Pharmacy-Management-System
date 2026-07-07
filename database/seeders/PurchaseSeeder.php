@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pharmacy;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Product;
@@ -16,6 +17,7 @@ class PurchaseSeeder extends Seeder
         $suppliers = Supplier::all();
         $products = Product::all();
         $user = User::query()->where('role', 'admin')->first();
+        $pharmacy = Pharmacy::first();
 
         for ($i = 1; $i <= 10; $i++) {
 
@@ -26,6 +28,7 @@ class PurchaseSeeder extends Seeder
                 'user_id' => $user->id,
                 'total_cost' => 0,
                 'status' => 'received',
+                'pharmacy_id' => $pharmacy->id,
             ]);
 
             $subtotal = 0;
