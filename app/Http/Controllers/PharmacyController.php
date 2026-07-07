@@ -71,7 +71,7 @@ class PharmacyController extends Controller
     public function edit()
     {
         $pharmacy = auth()->user()->pharmacy;
-
+       //dd($pharmacy);
         return view('pharmacy.settings', compact('pharmacy'));
     }
 
@@ -118,7 +118,7 @@ class PharmacyController extends Controller
     public function index()
     {
         $pharmacy = auth()->user()->pharmacy;
-
+           
         return view('pharmacy.settings', [
             'pharmacy' => $pharmacy,
         ]);

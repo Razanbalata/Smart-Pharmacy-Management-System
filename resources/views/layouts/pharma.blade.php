@@ -144,20 +144,30 @@
     </style>
 </head>
 
-<body class="bg-background text-on-background min-h-screen flex">
-    <aside
-        class="w-[sidebar-width] h-screen sticky top-0 left-0 flex flex-col bg-surface-container-lowest dark:bg-surface-container-low border-r border-outline-variant dark:border-outline shadow-sm z-50">
-        <div class="flex flex-col p-4 gap-stack-md h-full">
-            <div class="mb-6 px-2">
-                <h1 class="font-display-lg text-display-lg font-bold text-primary dark:text-primary-container">
-                    PharmaSmart</h1>
-                <p class="font-label-md text-label-md text-on-surface-variant">Admin Account</p>
+<body class="bg-background text-on-background min-h-screen flex relative overflow-x-hidden">
+    
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden md:hidden transition-opacity duration-200"></div>
+
+    <aside id="main-sidebar"
+        class="w-72 md:w-[sidebar-width] min-h-screen fixed md:sticky top-0 left-0 flex-col bg-surface-container-lowest dark:bg-surface-container-low border-r border-outline-variant dark:border-outline shadow-sm z-50 hidden md:flex transition-transform duration-300 -translate-x-full md:translate-x-0">
+        <div class="flex flex-col p-4 gap-stack-md h-full overflow-y-auto">
+            <div class="flex justify-between items-center mb-6 px-2">
+                <div>
+                    <h1 class="font-display-lg text-2xl md:text-display-lg font-bold text-primary dark:text-primary-container">
+                        PharmaSmart</h1>
+                    <p class="font-label-md text-label-md text-on-surface-variant">Admin Account</p>
+                </div>
+                <button id="close-sidebar" class="md:hidden material-symbols-outlined p-1 text-on-surface-variant hover:bg-surface-container rounded-lg">
+                    close
+                </button>
             </div>
+            
             <a href="{{ route('sales.create') }}"
-   class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition">
-    <span class="material-symbols-outlined">add</span>
-    New Sale
-</a>
+                class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition">
+                <span class="material-symbols-outlined">add</span>
+                New Sale
+            </a>
+            
             <nav class="flex-1 space-y-1">
                 <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('dashboard') || request()->is('dashboard*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
                     href="{{ route('dashboard') }}">
@@ -213,8 +223,9 @@
                     <span class="font-label-md text-label-md">AI Insights</span>
                 </a>
             </nav>
+            
             <div class="mt-auto pt-4 border-t border-outline-variant space-y-1">
-                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200"
+                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('pharmacy.settings*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
                     href="{{ route('pharmacy.settings') }}">
                     <span class="material-symbols-outlined">settings</span>
                     <span class="font-label-md text-label-md">Settings</span>
@@ -229,68 +240,71 @@
                         data-alt="A professional headshot..."
                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq2Q-sgmlUPrDSJ1k9JAYndLXfZNfxPJDe0MpbzTS1_dskyjdlFM-CJpR5nGX7wYWi05RM_xFHIo7-BZ22lcD2feC2zTio6Z-adjFuHdbxF3N1oUaCH2RFhQR3lPjMwr18Si9QtY6iLduiVKi7TtCWXHd9FdJT0ws7-HOJD3CIPnS57dcNFJn3lfbNZVv4i3DDJT52e3r6tFguxmSj0HPwBpJPLjua5cN3XgzwKwRZHI0MaKTGxNIX" />
                     <div class="overflow-hidden">
-                        <p class="font-label-md text-label-md truncate">Dr. Aris Thorne</p>
-                        <p class="text-[10px] text-on-surface-variant">Chief Pharmacist</p>
+                        <p class="font-label-md text-label-md truncate">{{ auth()->user()->name }}</p>
+                        <p class="text-[10px] text-on-surface-variant">{{ auth()->user()->role }}</p>
                     </div>
                 </div>
             </div>
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col h-screen overflow-y-auto scroll-hide">
+    <main class="flex-1 flex flex-col min-h-screen overflow-x-hidden overflow-y-auto scroll-hide">
         <header
             class="h-16 w-full sticky top-0 z-40 bg-surface/95 backdrop-blur-md border-b border-outline-variant dark:border-outline">
-            <div class="flex justify-between items-center px-gutter w-full max-w-container-max mx-auto h-full">
-                <div class="flex items-center gap-4 flex-1">
-                    <div
-                        class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-primary rounded-lg transition-all">
-                        <span
-                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+            <div class="flex justify-between items-center px-4 md:px-gutter w-full max-w-container-max mx-auto h-full gap-4">
+                
+                <div class="flex items-center gap-3 flex-1">
+                    <button id="open-sidebar" class="md:hidden material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">
+                        menu
+                    </button>
+
+                    <div class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-primary rounded-lg transition-all">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
                         <input
-                            class="w-full bg-surface-container-low border-none rounded-lg pl-10 py-2 text-body-md focus:ring-0"
-                            placeholder="Search inventory, Rx, or reports (Cmd+K)" type="text" />
-                        <span
-                            class="absolute right-3 top-1/2 -translate-y-1/2 font-mono-sm text-mono-sm text-outline-variant px-1.5 py-0.5 border border-outline-variant rounded">⌘K</span>
+                            class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-10 md:pr-4 py-2 text-body-md focus:ring-0"
+                            placeholder="Search inventory, Rx..." type="text" />
+                        <span class="hidden sm:inline absolute right-3 top-1/2 -translate-y-1/2 font-mono-sm text-mono-sm text-outline-variant px-1.5 py-0.5 border border-outline-variant rounded">⌘K</span>
                     </div>
-                    <div class="hidden md:flex gap-6 ml-4">
+                    
+                    <div class="hidden lg:flex gap-6 ml-4">
                         <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors"
                             href="#">Inventory Alerts</a>
                         <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors"
                             href="#">Recent Reports</a>
                     </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button
-                        class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">notifications</button>
-                    <button
-                        class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">history</button>
-                    <div class="h-8 w-[1px] bg-outline-variant mx-2"></div>
-                    <button
-                        class="bg-secondary/10 text-secondary px-4 py-2 rounded-lg font-label-md text-label-md flex items-center gap-2 hover:bg-secondary/20 transition-colors">
+
+                <div class="flex items-center gap-1 md:gap-2 shrink-0">
+                    <button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">notifications</button>
+                    <button class="hidden sm:inline-block material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">history</button>
+                    <div class="hidden sm:block h-8 w-[1px] bg-outline-variant mx-1"></div>
+                    <button class="bg-secondary/10 text-secondary px-3 py-2 md:px-4 md:py-2 rounded-lg font-label-md text-xs md:text-label-md flex items-center gap-1 md:gap-2 hover:bg-secondary/20 transition-colors">
                         <span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
-                        Scan Rx
+                        <span class="hidden xs:inline">Scan Rx</span>
                     </button>
                 </div>
             </div>
         </header>
+
         @if (session('success'))
-            <div class="alert alert-success">
+            <div class="m-6 p-4 rounded-xl bg-emerald-500/10 text-emerald-600 font-semibold text-sm border border-emerald-500/20">
                 {{ session('success') }}
             </div>
         @endif
 
         @if (session('error'))
-            <div class="alert alert-danger">
+            <div class="m-6 p-4 rounded-xl bg-rose-500/10 text-rose-600 font-semibold text-sm border border-rose-500/20">
                 {{ session('error') }}
             </div>
         @endif
 
-        <div class="p-6">
+        <div class="p-4 md:p-6 flex-1">
             @yield('content')
         </div>
     </main>
 
     <script>
+        // دالة اختصار الكيبورد للبحث
         document.addEventListener('keydown', (e) => {
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                 e.preventDefault();
@@ -298,6 +312,7 @@
             }
         });
 
+        // تأثيرات حركية لبطاقات المؤشرات
         const metricCards = document.querySelectorAll('.bg-surface-container-lowest');
         metricCards.forEach(card => {
             card.addEventListener('mouseenter', () => {
@@ -307,6 +322,32 @@
                 card.style.transform = 'translateY(0)';
             });
         });
+
+        // جافاسكريبت للتحكم في فتح وإغلاق المنيو على الهواتف
+        const openSidebarBtn = document.getElementById('open-sidebar');
+        const closeSidebarBtn = document.getElementById('close-sidebar');
+        const mainSidebar = document.getElementById('main-sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        function toggleSidebar() {
+            mainSidebar.classList.toggle('hidden');
+            mainSidebar.classList.toggle('flex');
+            sidebarOverlay.classList.toggle('hidden');
+            
+            setTimeout(() => {
+                if (!mainSidebar.classList.contains('hidden')) {
+                    mainSidebar.classList.remove('-translate-x-full');
+                } else {
+                    mainSidebar.classList.add('-translate-x-full');
+                }
+            }, 10);
+        }
+
+        if (openSidebarBtn && closeSidebarBtn) {
+            openSidebarBtn.addEventListener('click', toggleSidebar);
+            closeSidebarBtn.addEventListener('click', toggleSidebar);
+            sidebarOverlay.addEventListener('click', toggleSidebar);
+        }
     </script>
 </body>
 
