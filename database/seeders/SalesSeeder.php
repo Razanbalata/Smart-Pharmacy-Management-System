@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pharmacy;
 use App\Models\Sale;
 use App\Models\Product;
 use App\Models\User;
@@ -13,6 +14,7 @@ class SalesSeeder extends Seeder
     {
         $cashiers = User::where('role', 'cashier')->get();
         $products = Product::all();
+        $pharmacy = Pharmacy::first();
 
         for ($i = 1; $i <= 15; $i++) {
 
@@ -24,6 +26,7 @@ class SalesSeeder extends Seeder
                 'discount' => 0,
                 'total' => 0,
                 'status' => 'completed',
+                'pharmacy_id' => $pharmacy->id,
             ]);
 
             $subtotal = 0;

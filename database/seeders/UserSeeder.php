@@ -15,9 +15,13 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $pharmacy = Pharmacy::first();
+        if (!$pharmacy) {
+            throw new \Exception("No pharmacy found. Run PharmacySeeder first.");
+        }
+
         $users = [
 
-        [
+            [
                 'name' => 'Ahmad Khalil',
                 'email' => 'pharmacist1@pharmacy.com',
                 'password' => Hash::make('password'),
@@ -25,8 +29,8 @@ class UserSeeder extends Seeder
                 'pharmacy_id' => $pharmacy->id,
             ],
             [
-                'name' => 'Ahmad Khalil',
-                'email' => 'pharmacist1@pharmacy.com',
+                'name' => 'Khalil Ahmad',
+                'email' => 'pharmacist@pharmacy.com',
                 'password' => Hash::make('password'),
                 'role' => 'pharmacist',
                 'pharmacy_id' => $pharmacy->id,

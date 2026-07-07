@@ -14,6 +14,7 @@ class Pharmacy extends Model
 
     protected $fillable = [
         'name',
+        'owner_id',
         'owner_name',
         'phone',
         'email',
@@ -31,5 +32,25 @@ class Pharmacy extends Model
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function suppliers()
+    {
+        return $this->hasMany(Supplier::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
 }

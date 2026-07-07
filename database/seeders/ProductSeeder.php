@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Pharmacy;
 use App\Models\Supplier;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -14,6 +15,7 @@ class ProductSeeder extends Seeder
     {
         $categoryMap = Category::all()->keyBy('name');
         $supplierMap = Supplier::all();
+        $pharmacy = Pharmacy::first();
 
         $products = [
 
@@ -27,6 +29,7 @@ class ProductSeeder extends Seeder
                 'selling_price' => 3.00,
                 'stock_quantity' => 200,
                 'minimum_stock' => 40,
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -38,6 +41,7 @@ class ProductSeeder extends Seeder
                 'selling_price' => 5.00,
                 'stock_quantity' => 150,
                 'minimum_stock' => 30,
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             // Antibiotics
@@ -50,6 +54,7 @@ class ProductSeeder extends Seeder
                 'selling_price' => 8.50,
                 'stock_quantity' => 100,
                 'minimum_stock' => 20,
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -61,6 +66,7 @@ class ProductSeeder extends Seeder
                 'selling_price' => 6.50,
                 'stock_quantity' => 120,
                 'minimum_stock' => 25,
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             // Vitamins
@@ -73,6 +79,7 @@ class ProductSeeder extends Seeder
                 'selling_price' => 4.00,
                 'stock_quantity' => 180,
                 'minimum_stock' => 30,
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -84,6 +91,7 @@ class ProductSeeder extends Seeder
                 'selling_price' => 5.00,
                 'stock_quantity' => 140,
                 'minimum_stock' => 25,
+                'pharmacy_id' => $pharmacy->id,
             ],
 
         ];
@@ -113,6 +121,7 @@ class ProductSeeder extends Seeder
 
                     'category_id' => $categoryMap[$product['category']]->id ?? null,
                     'supplier_id' => $supplierMap->where('name', $product['supplier'])->first()->id ?? null,
+                    'pharmacy_id' => $pharmacy->id,
                 ]
             );
         }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pharmacy;
 use App\Models\Supplier;
 use Illuminate\Database\Seeder;
 
@@ -9,6 +10,7 @@ class SupplierSeeder extends Seeder
 {
     public function run(): void
     {
+        $pharmacy = Pharmacy::first();
         $suppliers = [
 
             [
@@ -19,6 +21,7 @@ class SupplierSeeder extends Seeder
                 'address' => 'Amman, Jordan',
                 'notes' => 'Major pharmaceutical manufacturer in the region.',
                 'status' => 'active',
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -29,6 +32,7 @@ class SupplierSeeder extends Seeder
                 'address' => 'Ras Al Khaimah, UAE',
                 'notes' => 'Specialized in generic medicines.',
                 'status' => 'active',
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -39,6 +43,7 @@ class SupplierSeeder extends Seeder
                 'address' => 'Leverkusen, Germany',
                 'notes' => 'Global life science company.',
                 'status' => 'active',
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -49,6 +54,7 @@ class SupplierSeeder extends Seeder
                 'address' => 'New York, USA',
                 'notes' => 'Research-based pharmaceutical company.',
                 'status' => 'active',
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -59,6 +65,7 @@ class SupplierSeeder extends Seeder
                 'address' => 'Paris, France',
                 'notes' => 'Global healthcare company.',
                 'status' => 'active',
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -69,6 +76,7 @@ class SupplierSeeder extends Seeder
                 'address' => 'Illinois, USA',
                 'notes' => 'Healthcare and diagnostics company.',
                 'status' => 'active',
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -79,6 +87,7 @@ class SupplierSeeder extends Seeder
                 'address' => 'Jeddah, Saudi Arabia',
                 'notes' => 'Pharmaceutical manufacturing company.',
                 'status' => 'active',
+                'pharmacy_id' => $pharmacy->id,
             ],
 
             [
@@ -89,6 +98,7 @@ class SupplierSeeder extends Seeder
                 'address' => 'Cambridge, UK',
                 'notes' => 'Science-led biopharmaceutical company.',
                 'status' => 'active',
+                'pharmacy_id' => $pharmacy->id,
             ],
         ];
 

@@ -1,10 +1,8 @@
 @extends('layouts.pharma')
 
 @section('content')
-    <!-- Dashboard Content -->
     <div class="p-gutter max-w-container-max mx-auto w-full space-y-8">
         
-        <!-- Welcome Header -->
         <div class="flex justify-between items-end">
             <div>
                 <h2 class="font-headline-md text-headline-md text-on-surface">Pharmacy Dashboard</h2>
@@ -22,9 +20,39 @@
             </div>
         </div>
 
-        <!-- Top Row: Metric Cards -->
+        {{-- Dynamic Onboarding Checklist --}}
+        {{-- يظهر الكارت فقط إذا كانت الصيدلية جديدة (لا يوجد مبيعات بعد ولم يضف موظفين) --}}
+        @if(($summary['total_sales_today'] ?? 0) == 0 && $summary['total_products'] == 0)
+            <div class="bg-gradient-to-r from-primary/5 to-secondary/5 border border-primary/20 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2 text-primary">
+                        <span class="material-symbols-outlined font-bold">auto_awesome</span>
+                        <h3 class="text-lg font-bold text-on-surface">Welcome to PharmaSmart! Let's get set up</h3>
+                    </div>
+                    <p class="text-sm text-on-surface-variant max-w-2xl">
+                        Your pharmacy profile has been created successfully. Follow these quick steps to fully activate your workspace and start managing sales.
+                    </p>
+                    
+                    {{-- Steps Grid --}}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
+                        <a href="{{ route('users.index') }}" class="flex items-center gap-3 p-3 bg-surface-container-lowest border border-outline-variant rounded-xl hover:border-primary/40 transition-all group">
+                            <span class="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-white transition-colors">1</span>
+                            <span class="text-sm font-medium text-on-surface group-hover:text-primary transition-colors">Add Pharmacists & Cashiers</span>
+                        </a>
+                        <a href="#" class="flex items-center gap-3 p-3 bg-surface-container-lowest border border-outline-variant rounded-xl hover:border-primary/40 transition-all group">
+                            <span class="w-6 h-6 rounded-full bg-secondary/10 text-secondary flex items-center justify-center text-xs font-bold group-hover:bg-secondary group-hover:text-white transition-colors">2</span>
+                            <span class="text-sm font-medium text-on-surface group-hover:text-secondary transition-colors">Add First Product to Inventory</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hidden lg:block opacity-20 pr-4">
+                    <span class="material-symbols-outlined text-8xl text-primary">storefront</span>
+                </div>
+            </div>
+        @endif
+
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            <!-- Total Products -->
             <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex justify-between items-start mb-4">
                     <div class="p-2 bg-primary/10 text-primary rounded-lg">
@@ -35,7 +63,6 @@
                 <h3 class="font-display-lg text-display-lg font-bold">{{ $summary['total_products'] }}</h3>
             </div>
 
-            <!-- Total Sales Today -->
             <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex justify-between items-start mb-4">
                     <div class="p-2 bg-secondary/10 text-secondary rounded-lg">
@@ -43,10 +70,10 @@
                     </div>
                 </div>
                 <p class="font-label-md text-label-md text-on-surface-variant mb-1">Sales Today</p>
-                <h3 class="font-display-lg text-display-lg font-bold">${{ number_format($summary['total_sales_today'] ?? 0, 2) }}</h3>
+                {{-- تعديل العملة إلى JD لتطابق بقية النظام --}}
+                <h3 class="font-display-lg text-display-lg font-bold">{{ number_format($summary['total_sales_today'] ?? 0, 2) }} <span class="text-xs font-bold text-on-surface-variant">JD</span></h3>
             </div>
 
-            <!-- Profit -->
             <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex justify-between items-start mb-4">
                     <div class="p-2 bg-green-500/10 text-green-600 rounded-lg">
@@ -54,10 +81,9 @@
                     </div>
                 </div>
                 <p class="font-label-md text-label-md text-on-surface-variant mb-1">Total Profit</p>
-                <h3 class="font-display-lg text-display-lg font-bold text-green-600">${{ number_format($summary['profit'] ?? 0, 2) }}</h3>
+                <h3 class="font-display-lg text-display-lg font-bold text-green-600">{{ number_format($summary['profit'] ?? 0, 2) }} <span class="text-xs font-bold text-green-600">JD</span></h3>
             </div>
 
-            <!-- Low Stock Count -->
             <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex justify-between items-start mb-4">
                     <div class="p-2 bg-amber-500/10 text-amber-600 rounded-lg">
@@ -68,7 +94,6 @@
                 <h3 class="font-display-lg text-display-lg font-bold text-amber-600">{{ $summary['low_stock_count'] }}</h3>
             </div>
 
-            <!-- Expired Count -->
             <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex justify-between items-start mb-4">
                     <div class="p-2 bg-error/10 text-error rounded-lg">
@@ -80,21 +105,18 @@
             </div>
         </div>
 
-        <!-- Middle Row: Charts & AI Insights / Expiring Alert -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Sales Analytics Chart -->
             <div class="lg:col-span-2 bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm flex flex-col">
                 <div class="flex justify-between items-center mb-8">
                     <h4 class="font-headline-sm text-headline-sm">Sales Trends Analytics</h4>
                     <span class="text-xs text-on-surface-variant font-mono-sm">Data connected to ChartJS/SVG</span>
                 </div>
                 <div class="flex-1 min-h-[300px] w-full relative flex items-end gap-2">
-                    <!-- Mock Chart Representation (يمكن استبداله بـ Chart.js لاحقاً) -->
                     <div class="absolute inset-0 flex flex-col justify-between py-2">
-                        <div class="w-full border-t border-outline-variant/30 flex justify-end"><span class="text-[10px] text-outline-variant mt-1">$6k</span></div>
-                        <div class="w-full border-t border-outline-variant/30 flex justify-end"><span class="text-[10px] text-outline-variant mt-1">$4k</span></div>
-                        <div class="w-full border-t border-outline-variant/30 flex justify-end"><span class="text-[10px] text-outline-variant mt-1">$2k</span></div>
-                        <div class="w-full border-t border-outline-variant flex justify-end"><span class="text-[10px] text-outline-variant mt-1">$0k</span></div>
+                        <div class="w-full border-t border-outline-variant/30 flex justify-end"><span class="text-[10px] text-outline-variant mt-1">6k JD</span></div>
+                        <div class="w-full border-t border-outline-variant/30 flex justify-end"><span class="text-[10px] text-outline-variant mt-1">4k JD</span></div>
+                        <div class="w-full border-t border-outline-variant/30 flex justify-end"><span class="text-[10px] text-outline-variant mt-1">2k JD</span></div>
+                        <div class="w-full border-t border-outline-variant flex justify-end"><span class="text-[10px] text-outline-variant mt-1">0 JD</span></div>
                     </div>
                     <svg class="absolute bottom-0 left-0 w-full h-[260px] overflow-visible pointer-events-none" viewbox="0 0 1000 300">
                         <defs>
@@ -118,7 +140,6 @@
                 </div>
             </div>
 
-            <!-- Dynamic AI Insights & Expiring Products Panel -->
             <div class="bg-surface-container-low p-6 rounded-xl border border-primary-container/30 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center gap-2 mb-6">
@@ -127,7 +148,6 @@
                     </div>
                     
                     <div class="space-y-4">
-                        <!-- Expiring Soon Products Loop -->
                         @if(isset($summary['expiring_soon_products']) && count($summary['expiring_soon_products']) > 0)
                             @foreach($summary['expiring_soon_products'] as $product)
                                 <div class="bg-surface-container-lowest p-4 rounded-lg border border-error/20 shadow-sm relative">
@@ -144,7 +164,6 @@
                             </div>
                         @endif
 
-                        <!-- Top Selling Insight Quick Note -->
                         @if(isset($summary['top_selling_products']) && count($summary['top_selling_products']) > 0)
                             <div class="bg-surface-container-lowest p-4 rounded-lg border border-primary/20 shadow-sm">
                                 <p class="font-label-md text-label-md text-primary mb-1">Top Performer</p>
@@ -157,15 +176,12 @@
                 </div>
                 
                 <button class="mt-6 w-full py-2 border border-primary text-primary rounded-lg font-label-md text-label-md hover:bg-primary/5 transition-colors">
-                    System Intelligence Audit
+                    <span class="inline-flex items-center gap-1">System Intelligence Audit</span>
                 </button>
             </div>
         </div>
 
-        <!-- Grid for Low Stock Inventory & Top Selling Products -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            <!-- Left Side: Low Stock Data Table -->
             <div class="lg:col-span-2 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden flex flex-col justify-between">
                 <div>
                     <div class="p-6 border-b border-outline-variant flex justify-between items-center">
@@ -208,7 +224,6 @@
                 </div>
             </div>
 
-            <!-- Right Side: Top Selling Products -->
             <div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden flex flex-col justify-between">
                 <div>
                     <div class="p-6 border-b border-outline-variant">
@@ -241,17 +256,14 @@
                     <span class="text-xs text-on-surface-variant">Live updates based on latest transactions</span>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- Pass Weekly Sales Data cleanly to JavaScript for ChartJS -->
     @if(isset($summary['weekly_sales']))
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const weeklySalesData = @json($summary['weekly_sales']);
             console.log("ERP Dynamic Chart Data loaded:", weeklySalesData);
-            // هنا يمكنك ربط مصفوفة البيانات بـ Chart.js مباشرة إذا أردت استبدال الـ SVG
         });
     </script>
     @endif

@@ -63,4 +63,7 @@ class Product extends Model
     {
         return $this->hasMany(SaleItem::class);
     }
+    public function pharmacy(){
+        return $this->belongsTo(Pharmacy::class);
+    }
 }
