@@ -3,6 +3,7 @@
 use App\Http\Controllers\Categories\CategoryController;
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Search\SearchController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -34,6 +35,14 @@ Route::middleware(['auth', 'active'])->group(function () {
     // (اختياري لو بدك صفحة عامة)
     Route::get('/pharmacy', [PharmacyController::class, 'index'])
         ->name('pharmacy.index');
+});
+
+Route::middleware(['auth', 'active'])->group(function () {
+    Route::get('/search', SearchController::class)
+        ->name('search.index');
+
+    Route::get('/search/suggestions', [SearchController::class, 'suggestions'])
+        ->name('search.suggestions');
 });
 
 require __DIR__ . '/auth.php';

@@ -145,29 +145,33 @@
 </head>
 
 <body class="bg-background text-on-background min-h-screen flex relative overflow-x-hidden">
-    
-    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden md:hidden transition-opacity duration-200"></div>
+
+    <div id="sidebar-overlay"
+        class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden md:hidden transition-opacity duration-200">
+    </div>
 
     <aside id="main-sidebar"
         class="w-72 md:w-[sidebar-width] min-h-screen fixed md:sticky top-0 left-0 flex-col bg-surface-container-lowest dark:bg-surface-container-low border-r border-outline-variant dark:border-outline shadow-sm z-50 hidden md:flex transition-transform duration-300 -translate-x-full md:translate-x-0">
         <div class="flex flex-col p-4 gap-stack-md h-full overflow-y-auto">
             <div class="flex justify-between items-center mb-6 px-2">
                 <div>
-                    <h1 class="font-display-lg text-2xl md:text-display-lg font-bold text-primary dark:text-primary-container">
+                    <h1
+                        class="font-display-lg text-2xl md:text-display-lg font-bold text-primary dark:text-primary-container">
                         PharmaSmart</h1>
                     <p class="font-label-md text-label-md text-on-surface-variant">Admin Account</p>
                 </div>
-                <button id="close-sidebar" class="md:hidden material-symbols-outlined p-1 text-on-surface-variant hover:bg-surface-container rounded-lg">
+                <button id="close-sidebar"
+                    class="md:hidden material-symbols-outlined p-1 text-on-surface-variant hover:bg-surface-container rounded-lg">
                     close
                 </button>
             </div>
-            
+
             <a href="{{ route('sales.create') }}"
                 class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition">
                 <span class="material-symbols-outlined">add</span>
                 New Sale
             </a>
-            
+
             <nav class="flex-1 space-y-1">
                 <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('dashboard') || request()->is('dashboard*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
                     href="{{ route('dashboard') }}">
@@ -223,7 +227,7 @@
                     <span class="font-label-md text-label-md">Stock</span>
                 </a>
             </nav>
-            
+
             <div class="mt-auto pt-4 border-t border-outline-variant space-y-1">
                 <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('pharmacy.settings*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
                     href="{{ route('pharmacy.settings') }}">
@@ -251,47 +255,75 @@
     <main class="flex-1 flex flex-col min-h-screen overflow-x-hidden overflow-y-auto scroll-hide">
         <header
             class="h-16 w-full sticky top-0 z-40 bg-surface/95 backdrop-blur-md border-b border-outline-variant dark:border-outline">
-            <div class="flex justify-between items-center px-4 md:px-gutter w-full max-w-container-max mx-auto h-full gap-4">
-                
+            <div
+                class="flex justify-between items-center px-4 md:px-gutter w-full max-w-container-max mx-auto h-full gap-4">
+
                 <div class="flex items-center gap-3 flex-1">
-                    <button id="open-sidebar" class="md:hidden material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">
+                    <button id="open-sidebar"
+                        class="md:hidden material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">
                         menu
                     </button>
 
-                    <div class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-primary rounded-lg transition-all">
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-                        <input
-                            class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-10 md:pr-4 py-2 text-body-md focus:ring-0"
-                            placeholder="Search inventory, Rx..." type="text" />
-                        <span class="hidden sm:inline absolute right-3 top-1/2 -translate-y-1/2 font-mono-sm text-mono-sm text-outline-variant px-1.5 py-0.5 border border-outline-variant rounded">⌘K</span>
+                    <div
+                        class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-primary rounded-lg transition-all">
+
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
+                            search
+                        </span>
+
+
+                        <form action="{{ route('search.index') }}" method="GET">
+
+                            <input type="text" id="global-search" name="q" autocomplete="off"
+                                placeholder="Search anything..."
+                                class="w-full pl-10 pr-16 py-2 rounded-lg border border-outline-variant">
+
+                        </form>
+
+
+                        <!-- Dropdown Results -->
+                        <div id="search-results"
+                            class="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg border hidden z-50">
+                        </div>
+
+
+                        <span
+                            class="hidden sm:inline absolute right-3 top-1/2 -translate-y-1/2 font-mono-sm text-mono-sm text-outline-variant px-1.5 py-0.5 border border-outline-variant rounded">
+                            ⌘K
+                        </span>
+
                     </div>
-                    
+
                     <div class="hidden lg:flex gap-6 ml-4">
 
-    <a href="{{ route('inventory.index') }}"
-        class="font-body-md text-body-md transition-colors
+                        <a href="{{ route('inventory.index') }}"
+                            class="font-body-md text-body-md transition-colors
         {{ request()->routeIs('inventory.*')
             ? 'text-primary font-semibold border-b-2 border-primary pb-1'
             : 'text-on-surface-variant hover:text-primary' }}">
-        Inventory Alerts
-    </a>
+                            Inventory Alerts
+                        </a>
 
-    <a href="{{ route('reports.index') }}"
-        class="font-body-md text-body-md transition-colors
+                        <a href="{{ route('reports.index') }}"
+                            class="font-body-md text-body-md transition-colors
         {{ request()->routeIs('reports.*')
             ? 'text-primary font-semibold border-b-2 border-primary pb-1'
             : 'text-on-surface-variant hover:text-primary' }}">
-        Recent Reports
-    </a>
+                            Recent Reports
+                        </a>
 
-</div>
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-1 md:gap-2 shrink-0">
-                    <button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">notifications</button>
-                    <button class="hidden sm:inline-block material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">history</button>
+                    <button
+                        class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">notifications</button>
+                    <button
+                        class="hidden sm:inline-block material-symbols-outlined p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">history</button>
                     <div class="hidden sm:block h-8 w-[1px] bg-outline-variant mx-1"></div>
-                    <button class="bg-secondary/10 text-secondary px-3 py-2 md:px-4 md:py-2 rounded-lg font-label-md text-xs md:text-label-md flex items-center gap-1 md:gap-2 hover:bg-secondary/20 transition-colors">
+                    <button
+                        class="bg-secondary/10 text-secondary px-3 py-2 md:px-4 md:py-2 rounded-lg font-label-md text-xs md:text-label-md flex items-center gap-1 md:gap-2 hover:bg-secondary/20 transition-colors">
                         <span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
                         <span class="hidden xs:inline">Scan Rx</span>
                     </button>
@@ -300,13 +332,15 @@
         </header>
 
         @if (session('success'))
-            <div class="m-6 p-4 rounded-xl bg-emerald-500/10 text-emerald-600 font-semibold text-sm border border-emerald-500/20">
+            <div
+                class="m-6 p-4 rounded-xl bg-emerald-500/10 text-emerald-600 font-semibold text-sm border border-emerald-500/20">
                 {{ session('success') }}
             </div>
         @endif
 
         @if (session('error'))
-            <div class="m-6 p-4 rounded-xl bg-rose-500/10 text-rose-600 font-semibold text-sm border border-rose-500/20">
+            <div
+                class="m-6 p-4 rounded-xl bg-rose-500/10 text-rose-600 font-semibold text-sm border border-rose-500/20">
                 {{ session('error') }}
             </div>
         @endif
@@ -317,49 +351,138 @@
     </main>
 
     <script>
-        // دالة اختصار الكيبورد للبحث
+        // اختصار الكيبورد للبحث
         document.addEventListener('keydown', (e) => {
+
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+
                 e.preventDefault();
-                document.querySelector('input[type="text"]').focus();
+
+                document.getElementById('global-search')?.focus();
+
             }
+
         });
 
-        // تأثيرات حركية لبطاقات المؤشرات
+
+
+        // تأثيرات بطاقات المؤشرات
         const metricCards = document.querySelectorAll('.bg-surface-container-lowest');
+
         metricCards.forEach(card => {
+
             card.addEventListener('mouseenter', () => {
                 card.style.transform = 'translateY(-2px)';
             });
+
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'translateY(0)';
             });
+
         });
 
-        // جافاسكريبت للتحكم في فتح وإغلاق المنيو على الهواتف
+
+
+        // Sidebar Mobile
+
         const openSidebarBtn = document.getElementById('open-sidebar');
         const closeSidebarBtn = document.getElementById('close-sidebar');
         const mainSidebar = document.getElementById('main-sidebar');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
 
+
         function toggleSidebar() {
+
             mainSidebar.classList.toggle('hidden');
             mainSidebar.classList.toggle('flex');
+
             sidebarOverlay.classList.toggle('hidden');
-            
+
+
             setTimeout(() => {
+
                 if (!mainSidebar.classList.contains('hidden')) {
+
                     mainSidebar.classList.remove('-translate-x-full');
+
                 } else {
+
                     mainSidebar.classList.add('-translate-x-full');
+
                 }
+
             }, 10);
+
         }
 
+
         if (openSidebarBtn && closeSidebarBtn) {
+
             openSidebarBtn.addEventListener('click', toggleSidebar);
+
             closeSidebarBtn.addEventListener('click', toggleSidebar);
+
             sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        }
+
+
+
+        // ===============================
+        // Global Search (Updated)
+        // ===============================
+
+        const searchInput = document.getElementById('global-search');
+        const searchResults = document.getElementById('search-results');
+        let searchTimer;
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimer);
+                let value = this.value.trim();
+                console.log("Input value:", value);
+
+                // 🌟 التعديل هنا: إذا كان الحقل فارغاً تماماً (أقل من 1) يتم إخفاء القائمة
+                if (value.length < 1) {
+                    searchResults.innerHTML = '';
+                    searchResults.classList.add('hidden');
+                    return;
+                }
+
+                searchTimer = setTimeout(() => {
+                    fetch("{{ route('search.suggestions') }}?q=" + encodeURIComponent(value))
+                        .then(response => response.json())
+                        .then(data => {
+                            searchResults.innerHTML = '';
+
+                            if (data.length === 0) {
+                                searchResults.innerHTML = `
+                            <div class="p-4 text-sm text-gray-500">
+                                No results found
+                            </div>
+                        `;
+                            }
+
+                            data.forEach(item => {
+                                searchResults.innerHTML += `
+                            <a href="${item.url}" class="block px-4 py-3 hover:bg-gray-100">
+                                <div class="font-medium">${item.title}</div>
+                                <div class="text-xs text-gray-500">${item.subtitle}</div>
+                            </a>
+                        `;
+                            });
+
+                            searchResults.classList.remove('hidden');
+                        });
+                }, 150); // الـ 300ms هادي ممتازة جداً لحماية السيرفر من الضغط أثناء الكتابة السريعة
+            });
+
+            // إخفاء النتائج عند الضغط خارج البحث
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.classList.add('hidden');
+                }
+            });
         }
     </script>
 </body>
