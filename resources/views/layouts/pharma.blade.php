@@ -212,7 +212,7 @@
                 </a>
 
                 <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('reports.*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
-                    href="#">
+                    href="{{ route('reports.index') }}">
                     <span class="material-symbols-outlined">analytics</span>
                     <span class="font-label-md text-label-md">Reports</span>
                 </a>
@@ -267,11 +267,24 @@
                     </div>
                     
                     <div class="hidden lg:flex gap-6 ml-4">
-                        <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors"
-                            href="#">Inventory Alerts</a>
-                        <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors"
-                            href="#">Recent Reports</a>
-                    </div>
+
+    <a href="{{ route('inventory.index') }}"
+        class="font-body-md text-body-md transition-colors
+        {{ request()->routeIs('inventory.*')
+            ? 'text-primary font-semibold border-b-2 border-primary pb-1'
+            : 'text-on-surface-variant hover:text-primary' }}">
+        Inventory Alerts
+    </a>
+
+    <a href="{{ route('reports.index') }}"
+        class="font-body-md text-body-md transition-colors
+        {{ request()->routeIs('reports.*')
+            ? 'text-primary font-semibold border-b-2 border-primary pb-1'
+            : 'text-on-surface-variant hover:text-primary' }}">
+        Recent Reports
+    </a>
+
+</div>
                 </div>
 
                 <div class="flex items-center gap-1 md:gap-2 shrink-0">
