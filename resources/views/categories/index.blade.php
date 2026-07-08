@@ -61,8 +61,18 @@
                 </thead>
                 <tbody class="divide-y divide-gray-150">
                     @forelse ($categories as $category)
-                        <tr class="hover:bg-gray-50/60 transition duration-150">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-950">
+                        <tr id="category-{{ $category->id }}"
+                                class="
+hover:bg-surface-container-lowest 
+dark:hover:bg-neutral-800/20 
+transition-all 
+duration-300
+
+@if (request('highlight') == $category->id) bg-primary/10
+ring-2
+ring-primary
+shadow-lg @endif
+"><td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-950">
                                 {{ $category->name }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium">
@@ -104,4 +114,16 @@
         @endif
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const highlightId = "{{ request('highlight') }}";
+        if (highlightId) {
+            const row = document.getElementById(`category-${highlightId}`);
+            if (row) {
+                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    });
+
 @endsection

@@ -351,87 +351,50 @@
     </main>
 
     <script>
-        // اختصار الكيبورد للبحث
+        // 1️⃣ اختصار الكيبورد الذكي للبحث (Ctrl + K)
         document.addEventListener('keydown', (e) => {
-
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-
                 e.preventDefault();
-
                 document.getElementById('global-search')?.focus();
-
             }
-
         });
 
-
-
-        // تأثيرات بطاقات المؤشرات
+        // 2️⃣ تأثيرات حركية خفيفة على بطاقات المؤشرات (Dashboard Cards)
         const metricCards = document.querySelectorAll('.bg-surface-container-lowest');
-
         metricCards.forEach(card => {
-
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-2px)';
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0)';
-            });
-
+            card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-2px)');
+            card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0)');
         });
 
-
-
-        // Sidebar Mobile
-
+        // 3️⃣ التحكم في الـ Sidebar للشاشات الصغيرة (Mobile)
         const openSidebarBtn = document.getElementById('open-sidebar');
         const closeSidebarBtn = document.getElementById('close-sidebar');
         const mainSidebar = document.getElementById('main-sidebar');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
 
-
         function toggleSidebar() {
-
             mainSidebar.classList.toggle('hidden');
             mainSidebar.classList.toggle('flex');
-
             sidebarOverlay.classList.toggle('hidden');
 
-
             setTimeout(() => {
-
                 if (!mainSidebar.classList.contains('hidden')) {
-
                     mainSidebar.classList.remove('-translate-x-full');
-
                 } else {
-
                     mainSidebar.classList.add('-translate-x-full');
-
                 }
-
             }, 10);
-
         }
-
 
         if (openSidebarBtn && closeSidebarBtn) {
-
             openSidebarBtn.addEventListener('click', toggleSidebar);
-
             closeSidebarBtn.addEventListener('click', toggleSidebar);
-
             sidebarOverlay.addEventListener('click', toggleSidebar);
-
         }
 
-
-
-        // ===============================
-        // Global Search (Updated)
-        // ===============================
-
+        // ==========================================
+        // 4️⃣ محرك البحث العالمي المتطور والمنظم (Global Search Engine)
+        // ==========================================
         const searchInput = document.getElementById('global-search');
         const searchResults = document.getElementById('search-results');
         let searchTimer;
@@ -440,44 +403,180 @@
             searchInput.addEventListener('input', function() {
                 clearTimeout(searchTimer);
                 let value = this.value.trim();
-                console.log("Input value:", value);
 
-                // 🌟 التعديل هنا: إذا كان الحقل فارغاً تماماً (أقل من 1) يتم إخفاء القائمة
+                // الفحص الفوري: لو الحقل فاضي بنخفي القائمة فوراً
                 if (value.length < 1) {
                     searchResults.innerHTML = '';
                     searchResults.classList.add('hidden');
                     return;
                 }
 
+                // مؤقت حماية السيرفر (Debounce) لسرعة خارقة من أول حرف دون ضغط القاعدة
                 searchTimer = setTimeout(() => {
                     fetch("{{ route('search.suggestions') }}?q=" + encodeURIComponent(value))
                         .then(response => response.json())
                         .then(data => {
                             searchResults.innerHTML = '';
 
+                            // حالة عدم وجود أي نتائج
                             if (data.length === 0) {
                                 searchResults.innerHTML = `
-                            <div class="p-4 text-sm text-gray-500">
-                                No results found
-                            </div>
-                        `;
+                                <div class="p-6 text-center text-sm text-gray-500">
+                                    <span class="material-icons-outlined text-gray-400 text-3xl block mb-2">search_off</span>
+                                    لا توجد نتائج مطابقة لبحثك
+                                </div>
+                            `;
+                                searchResults.classList.remove('hidden');
+                                return;
                             }
 
+                            // ميزة الفرز الذكي: تجميع البيانات حسب الـ Type الممرر من الـ PHP
+                            const groupedData = {};
+
                             data.forEach(item => {
-                                searchResults.innerHTML += `
-                            <a href="${item.url}" class="block px-4 py-3 hover:bg-gray-100">
-                                <div class="font-medium">${item.title}</div>
-                                <div class="text-xs text-gray-500">${item.subtitle}</div>
-                            </a>
-                        `;
+
+                                if (!groupedData[item.type]) {
+
+                                    groupedData[item.type] = {
+                                        icon: item.icon,
+                                        items: []
+                                    };
+
+                                }
+
+                                groupedData[item.type].items.push(item);
+
                             });
 
+
+                            let html = `
+<div class="max-h-[450px] overflow-y-auto p-2">
+`;
+
+
+                            Object.entries(groupedData).forEach(([type, group]) => {
+
+
+                                html += `
+
+    <div class="mb-3">
+
+        <div class="
+            flex items-center gap-2
+            px-3 py-2
+            text-xs font-bold
+            text-primary
+            bg-primary/10
+            rounded-lg
+            uppercase
+        ">
+
+            <span class="material-symbols-outlined text-[18px]">
+                ${group.icon}
+            </span>
+
+            ${type}
+
+        </div>
+
+
+    `;
+
+
+                                group.items.forEach(item => {
+
+
+                                    html += `
+
+        <a href="${item.url}"
+            class="
+            flex items-center gap-3
+            px-3 py-3
+            rounded-xl
+            hover:bg-surface-container
+            transition
+            group
+            ">
+
+
+            <div class="
+                w-9 h-9
+                flex items-center justify-center
+                rounded-lg
+                bg-surface-container
+                group-hover:bg-primary/10
+            ">
+
+                <span class="material-symbols-outlined text-[20px]">
+                    ${group.icon}
+                </span>
+
+            </div>
+
+
+
+            <div class="flex-1">
+
+
+                <div class="
+                    text-sm font-semibold
+                    text-on-surface
+                    group-hover:text-primary
+                ">
+
+                    ${item.title}
+
+                </div>
+
+
+
+                <div class="
+                    text-xs
+                    text-on-surface-variant
+                ">
+
+                    ${item.subtitle ?? ''}
+
+                </div>
+
+
+            </div>
+
+
+
+            <span class="material-symbols-outlined text-outline-variant">
+
+                arrow_forward
+
+            </span>
+
+
+        </a>
+
+
+        `;
+
+
+                                });
+
+
+                                html += `</div>`;
+
+
+                            });
+
+
+                            html += `</div>`;
+
+
+                            searchResults.innerHTML = html;
                             searchResults.classList.remove('hidden');
-                        });
-                }, 150); // الـ 300ms هادي ممتازة جداً لحماية السيرفر من الضغط أثناء الكتابة السريعة
+                        })
+                        .catch(error => console.error("حدث خطأ أثناء جلب البيانات: ", error));
+                }, 150); // استجابة فورية ممتازة بـ 150 جزء من الثانية
             });
 
-            // إخفاء النتائج عند الضغط خارج البحث
+            // إغلاق نافذة النتائج فوراً عند النقر بأي مكان خارجها
             document.addEventListener('click', function(e) {
                 if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
                     searchResults.classList.add('hidden');

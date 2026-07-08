@@ -22,7 +22,7 @@ class PurchaseOrderController extends Controller
     {
         $orders = PurchaseOrder::with('supplier', 'user')
             ->latest()
-            ->get();
+            ->paginate(5);
 
         return view('purchase.index', compact('orders'));
     }

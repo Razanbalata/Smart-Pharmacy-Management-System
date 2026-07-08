@@ -81,7 +81,18 @@
                 <tbody>
 
                     @forelse($sales as $sale)
-                        <tr class="border-t hover:bg-gray-50">
+                        <tr id="sale-{{ $sale->id }}"
+                            class="
+hover:bg-surface-container-lowest 
+dark:hover:bg-neutral-800/20 
+transition-all 
+duration-300
+
+@if (request('highlight') == $sale->id) bg-primary/10
+ring-2
+ring-primary
+shadow-lg @endif
+">
 
                             <td class="p-4 font-semibold">
                                 #{{ $sale->id }}
@@ -150,8 +161,26 @@
                 </tbody>
 
             </table>
-
+            @if (method_exists($sales, 'links') && $sales->hasPages())
+                <div class="px-6 py-4 border-t border-outline-variant/40 bg-surface-container dark:bg-neutral-800/30">
+                    {{ $sales->appends(request()->query())->links() }}
+                </div>
+            @endif
         </div>
 
     </div>
-@endsection
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const highlightId = "{{ request('highlight') }}";
+            if (highlightId) {
+                const row = document.getElementById(`sale-${highlightId}`);
+                if (row) {
+                    row.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+            }
+        });
+    @endsection
