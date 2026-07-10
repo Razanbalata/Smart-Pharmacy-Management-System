@@ -3,12 +3,12 @@
 namespace App\Services;
 
 use App\Models\Product;
-use App\Models\Sale;
 use App\Models\PurchaseOrder;
+use App\Models\Sale;
+use Illuminate\Support\Facades\DB;
 
 class DashboardService
 {
-
     /* ========================
         🟢 KPI METRICS (Numbers that summarize the business)
     ======================== */
@@ -22,7 +22,12 @@ class DashboardService
 
     public function totalPurchases()
     {
-        return PurchaseOrder::sum('total_cost');
+        return PurchaseOrder::query()
+            ->whereDate(
+                'created_at',
+                today()
+            )
+            ->sum('total_cost');
     }
 
     public function profit()
@@ -89,7 +94,6 @@ class DashboardService
             ->avg('total');
     }
 
-
     public function weeklySales()
     {
         return Sale::selectRaw('DATE(created_at) as date, SUM(total) as total')
@@ -99,6 +103,7 @@ class DashboardService
             ->orderBy('date')
             ->get();
     }
+
     /* ========================
         🔴 ALERTS (Problems that need attention)
     ======================== */
@@ -115,4 +120,82 @@ class DashboardService
             ->where('expiration_date', '<', now())
             ->count();
     }
+
+    /* ========================
+        🟢 STATUS (Overall health of the business
+     ======================== */
+
+    public function calculateStatus()
+    {
+        $lowStockCount = $this->lowStockCount();
+        $expiredCount = $this->expiredProductsCount();
+
+        if ($lowStockCount > 10 || $expiredCount > 0) {
+            return 'critical';
+        }
+
+        if ($lowStockCount > 0) {
+            return 'warning';
+        }
+
+        return 'good';
+    }
+
+    public function statusLabel()
+    {
+        $status = $this->calculateStatus();
+
+        return match ($status) {
+            'critical' => 'Critical',
+            'warning' => 'Warning',
+            default => 'Good',
+        };
+    }
+
+    public function salesLast30Days()
+    {
+        return Sale::where('status', 'completed')
+            ->where(
+                'created_at',
+                '>=',
+                now()->subDays(30)
+            )
+            ->sum('total');
+    }
+
+    public function purchasesLast30Days()
+    {
+        return PurchaseOrder::where(
+            'created_at',
+            '>=',
+            now()->subDays(30)
+        )
+            ->sum('total_cost');
+    }
+
+    public function salesCountLast30Days()
+    {
+        return Sale::where('status', 'completed')
+            ->where(
+                'created_at',
+                '>=',
+                now()->subDays(30)
+            )
+            ->count();
+    }
+
+    public function profitLast30Days()
+    {
+        return $this->salesLast30Days()
+            - $this->purchasesLast30Days();
+    }
+
+    public function inventoryValue()
+{
+    return Product::sum(
+        DB::raw(
+            'stock_quantity * purchase_price'
+        )
+    );
+}
 }
