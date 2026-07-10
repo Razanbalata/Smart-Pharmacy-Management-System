@@ -37,17 +37,28 @@ class AIService
             );
         }
 
-        $content =
-            $response
-                ->json('choices.0.message.content');
+        $content = $response
+            ->json('choices.0.message.content');
 
         $content = trim($content);
 
-        // Remove markdown json block
+        // Remove markdown code blocks
         $content = preg_replace(
-            '/^```json|```$/',
+            '/^```(?:json)?\s*/i',
             '',
             $content
+        );
+
+        $content = preg_replace(
+            '/\s*```$/',
+            '',
+            $content
+        );
+
+        // Remove wrapping quotes
+        $content = trim(
+            $content,
+            "\" \n\r\t"
         );
 
         $content = trim($content);
@@ -57,6 +68,12 @@ class AIService
             true
         );
 
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            dd([
+                'json_error' => json_last_error_msg(),
+                'content_after_clean' => $content
+            ]);
+        }
         if (!is_array($result)) {
             return [
                 'success' => false,
