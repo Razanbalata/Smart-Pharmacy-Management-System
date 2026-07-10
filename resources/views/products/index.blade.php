@@ -4,9 +4,15 @@
     <div class="space-y-6 p-6">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
+                <nav class="flex items-center gap-2 text-xs text-on-surface-variant font-medium mb-1.5">
+                    <span class="text-on-surface-variant">Inventory</span>
+                    <span class="material-symbols-outlined text-sm select-none">chevron_right</span>
+                    <span class="text-on-surface">Products List</span>
+                </nav>
                 <h1 class="text-2xl font-bold tracking-tight text-on-surface dark:text-white">Product Inventory</h1>
-                <p class="text-sm text-on-surface-variant dark:text-gray-400 mt-1">Monitor stock levels, tracking barcodes,
-                    expirations, and supplier distributions.</p>
+                <p class="text-sm text-on-surface-variant dark:text-gray-400 mt-1">
+                    Monitor stock levels, tracking barcodes, expirations, and supplier distributions.
+                </p>
             </div>
             <div>
                 <a href="{{ route('products.create') }}"
@@ -114,7 +120,8 @@
                 <div>
                     <p class="text-xs text-on-surface-variant dark:text-gray-400">Categories</p>
                     <p class="text-xl font-bold text-on-surface dark:text-white">
-                        {{ $products->pluck('category_id')->unique()->count() }}</p>
+                        {{ $products->pluck('category_id')->unique()->count() }}
+                    </p>
                 </div>
             </div>
             <div
@@ -143,7 +150,6 @@
                                 products need restocking urgently.
                             </div>
                         </div>
-
                         <div class="flex shrink-0">
                             <a href="{{ route('products.low-stock') }}"
                                 class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 bg-error hover:bg-error-container text-white hover:text-on-error-container text-xs font-bold px-4 py-2 rounded-xl shadow-sm hover:shadow transition-all duration-200">
@@ -153,6 +159,7 @@
                         </div>
                     </div>
                 @endif
+
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr
@@ -167,8 +174,19 @@
                     </thead>
                     <tbody class="divide-y divide-outline-variant/20 text-on-surface dark:text-gray-200 text-sm">
                         @forelse($products as $product)
-                            <tr
-                                class="hover:bg-surface-container-lowest dark:hover:bg-neutral-800/20 transition-colors duration-150">
+                            <tr id="product-{{ $product->id }}"
+                                class="
+hover:bg-surface-container-lowest 
+dark:hover:bg-neutral-800/20 
+transition-all 
+duration-300
+
+@if (request('highlight') == $product->id) bg-primary/10
+ring-2
+ring-primary
+shadow-lg @endif
+">
+
                                 <td class="px-6 py-4">
                                     <div class="font-semibold text-base text-on-surface dark:text-white">
                                         {{ $product->name }}</div>
@@ -252,7 +270,6 @@
                 </table>
             </div>
 
-            {{-- هنا يمكنك إضافة الـ Pagination الترقيم أسفل الجدول عند الحاجة --}}
             @if (method_exists($products, 'links') && $products->hasPages())
                 <div class="px-6 py-4 border-t border-outline-variant/40 bg-surface-container dark:bg-neutral-800/30">
                     {{ $products->withQueryString()->links() }}
@@ -260,4 +277,66 @@
             @endif
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const highlighted = document.querySelector('[id^="product-"]');
+
+            const params = new URLSearchParams(window.location.search);
+
+            const id = params.get('highlight');
+
+
+            if (id) {
+
+                const row = document.getElementById(`product-${id}`);
+
+                if (row) {
+
+                    setTimeout(() => {
+
+                        row.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center"
+                        });
+
+
+                        row.classList.add(
+                            "scale-[1.01]"
+                        );
+
+
+                        setTimeout(() => {
+
+                            row.classList.remove(
+                                "scale-[1.01]"
+                            );
+
+                        }, 1000);
+
+
+                    }, 300);
+
+                }
+
+            }
+
+        });
+    </script>
+
+    <style>
+        .highlighted-row {
+            animation: highlightPulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes highlightPulse {
+            0% {
+                box-shadow: inset 0 0 4px rgba(var(--md-sys-color-primary-rgb), 0.1);
+            }
+
+            100% {
+                box-shadow: inset 0 0 12px rgba(var(--md-sys-color-primary-rgb), 0.25);
+            }
+        }
+    </style>
 @endsection

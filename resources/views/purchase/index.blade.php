@@ -102,7 +102,13 @@
                     @endforelse
                 </tbody>
             </table>
+
         </div>
+        @if(method_exists($orders, 'links') && $orders->hasPages())
+            <div class="px-6 py-4 border-t border-outline-variant/40 bg-surface-container dark:bg-neutral-800/30">
+                {{ $orders->appends(request()->query())->links() }}
+            </div>
+        @endif
     </div>
 </div>
 @endsection

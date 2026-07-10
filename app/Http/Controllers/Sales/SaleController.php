@@ -22,7 +22,7 @@ class SaleController extends Controller
     {
         $sales = Sale::with('user')
             ->latest()
-            ->get();
+            ->paginate(5);
 
         return view('sales.index', compact('sales'));
     }

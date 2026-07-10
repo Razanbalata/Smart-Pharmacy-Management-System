@@ -24,11 +24,15 @@ class ProductController extends Controller
         $this->authorize('viewAny', Product::class);
         $query = Product::with(['category', 'supplier']);
         $lowStockProducts = Product::lowStock()->get();
+        
         // Search
         if ($request->filled('search')) {
+
             $query->where(function ($q) use ($request) {
+
                 $q->where('name', 'like', "%{$request->search}%")
-                    ->orWhere('sku', 'like', "%{$request->search}%");
+                    ->orWhere('sku', 'like', "%{$request->search}%")
+                    ->orWhere('barcode', 'like', "%{$request->search}%");
             });
         }
 

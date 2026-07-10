@@ -65,7 +65,8 @@ class InventoryController extends Controller
         // --- 6. كارد حركات المخزن الأخيرة ---
         // إذا كان عندك جدول للحركات (StockMovements)، يمكنك عده هكذا، أو عد التحديثات اليومية في جدول المنتجات
         // هنا سنحسب المنتجات التي تم تحديث كمياتها اليوم كمثال:
-        $movementCount = Product::query()->whereDate('updated_at', Carbon::today())->count();
+        $movementCount = Product::query()
+        ->whereDate('updated_at', Carbon::today())->count();
 
 
         // تمرير كل البيانات المجهزة إلى صفحة الـ Blade
