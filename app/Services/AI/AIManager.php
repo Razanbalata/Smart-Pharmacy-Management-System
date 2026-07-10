@@ -4,12 +4,14 @@ namespace App\Services\AI;
 
 use App\Services\AI\Contexts\DashboardContextBuilder;
 use App\Services\AI\AIService;
+use App\Services\AI\Contexts\ProductContextBuilder;
 use App\Services\AI\PromptBuilder;
 
 class AIManager
 {
     public function __construct(
         private DashboardContextBuilder $dashboardContextBuilder,
+        private ProductContextBuilder $productContextBuilder,
         private PromptBuilder $promptBuilder,
         private AIService $aiService,
         private AIResponseFormatter $formatter
@@ -21,7 +23,8 @@ class AIManager
         $context = match ($module) {
             'dashboard' =>
                 $this->dashboardContextBuilder->build(),
-
+            'products' =>
+                $this->productContextBuilder->build(),
             default =>
                 throw new \Exception('Unsupported AI module'),
         };
@@ -33,6 +36,6 @@ class AIManager
 
         $response = $this->aiService->generate($prompt);
 
-        return $this->formatter->format($response,$context);
+        return $this->formatter->format($response, $context);
     }
 }
