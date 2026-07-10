@@ -9,6 +9,8 @@
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         tailwind.config = {
@@ -145,7 +147,6 @@
 </head>
 
 <body class="bg-background text-on-background min-h-screen flex relative overflow-x-hidden">
-
     <div id="sidebar-overlay"
         class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden md:hidden transition-opacity duration-200">
     </div>
@@ -346,6 +347,7 @@
         @endif
 
         <div class="p-4 md:p-6 flex-1">
+
             @yield('content')
         </div>
     </main>
@@ -584,6 +586,7 @@
             });
         }
     </script>
+    <x-ai.drawer />
 </body>
 
 </html>
