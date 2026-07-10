@@ -8,8 +8,14 @@ class AIResponseFormatter
     {
         return [
             'status' => [
-                'level' => $context['status']['level'] ?? 'info',
-                'label' => $context['status']['label'] ?? 'AI Analysis Completed'
+                'level' =>
+                    $response['status']['level']
+                        ?? $context['status']['level']
+                        ?? 'info',
+                'label' =>
+                    $response['status']['label']
+                        ?? $context['status']['label']
+                        ?? 'AI Analysis Completed'
             ],
             'summary' => $this->cleanSummary(
                 $response['summary'] ?? []
@@ -23,7 +29,7 @@ class AIResponseFormatter
             'insights' => $this->normalize(
                 $response['insights'] ?? []
             ),
-            'generated_at'=>now()->toDateTimeString(),
+            'generated_at' => now()->toDateTimeString(),
         ];
     }
 
@@ -35,31 +41,37 @@ class AIResponseFormatter
             ];
         }
 
-        if (is_array($items)) {
-            return $items;
+        if (!is_array($items)) {
+            return [];
         }
 
-        return [];
+        return collect($items)
+            ->filter()
+            ->values()
+            ->toArray();
     }
 
     private function cleanSummary(array $items): array
     {
         return collect($items)
             ->map(function ($item) {
-                if (is_array($item['message'] ?? null)) {
-                    return [
-                        'title' =>
-                            $item['message']['title']
-                                ?? $item['title']
-                                ?? 'Summary',
-                        'message' =>
-                            $item['message']['message']
-                                ?? ''
-                    ];
-                }
-
-                return $item;
+                return [
+                    'title' =>
+                        $item['title']
+                            ?? 'Summary',
+                    'message' =>
+                        is_array($item['message'] ?? null)
+                            ? (
+                                $item['message']['message']
+                                    ?? ''
+                            )
+                            : (
+                                $item['message']
+                                    ?? ''
+                            )
+                ];
             })
+            ->values()
             ->toArray();
     }
 
@@ -67,21 +79,30 @@ class AIResponseFormatter
     {
         return collect($items)
             ->map(function ($item) {
-                if (is_array($item['message'] ?? null)) {
-                    return [
-                        'type' =>
-                            $item['message']['type'] ?? 'general',
-                        'level' =>
-                            $item['message']['level'] ?? 'low',
-                        'title' =>
-                            $item['message']['title'] ?? 'Alert',
-                        'message' =>
-                            $item['message']['message'] ?? ''
-                    ];
-                }
+                $message =
+                    is_array($item['message'] ?? null)
+                        ? $item['message']
+                        : $item;
 
-                return $item;
+                return [
+                    'type' =>
+                        $item['type']
+                            ?? $message['type']
+                            ?? 'general',
+                    'level' =>
+                        $item['level']
+                            ?? $message['level']
+                            ?? 'low',
+                    'title' =>
+                        $item['title']
+                            ?? $message['title']
+                            ?? 'Alert',
+                    'message' =>
+                        $message['message']
+                            ?? ''
+                ];
             })
+            ->values()
             ->toArray();
     }
 }

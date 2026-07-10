@@ -23,12 +23,24 @@
                     </p>
                 </div>
             </div>
+            <div class="flex items-center gap-3">
+                <button onclick="openAI('sales')"
+                    class="relative group overflow-hidden inline-flex items-center gap-2.5 px-5 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm shadow-[0_4px_20px_-4px_rgba(79,70,229,0.4)] hover:shadow-[0_4px_25px_rgba(79,70,229,0.6)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300">
 
-            <a href="{{ route('sales.create') }}"
-                class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition">
-                <span class="material-symbols-outlined">add</span>
-                New Sale
-            </a>
+                    <span
+                        class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></span>
+
+                    <span
+                        class="material-symbols-outlined text-[18px] tracking-normal group-hover:rotate-12 transition-transform duration-300">smart_toy</span>
+
+                    <span>AI Analysis</span>
+                </button>
+                <a href="{{ route('sales.create') }}"
+                    class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition">
+                    <span class="material-symbols-outlined">add</span>
+                    New Sale
+                </a>
+            </div>
 
         </div>
 

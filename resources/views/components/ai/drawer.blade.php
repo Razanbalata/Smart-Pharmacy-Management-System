@@ -27,11 +27,12 @@
                 </div>
                 <div>
                     <h2
+                    x-text="moduleInfo?.title ?? 'AI Analysis'"
                         class="text-lg font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-700">
                         PharmaSmart AI
                     </h2>
                     <p class="text-[11px] font-bold text-indigo-500/80 tracking-wide uppercase"
-                        x-text="title"></p>
+                        x-text="moduleInfo?.icon ?? 'smart_toy'"></p>
                 </div>
             </div>
 
