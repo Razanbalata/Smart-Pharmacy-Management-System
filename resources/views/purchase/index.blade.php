@@ -13,6 +13,17 @@
             </p>
         </div>
         <div>
+            <button onclick="openAI('purchases')"
+                    class="relative group overflow-hidden inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm shadow-[0_4px_20px_-4px_rgba(79,70,229,0.4)] hover:shadow-[0_4px_25px_rgba(79,70,229,0.6)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300">
+
+                    <span
+                        class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></span>
+
+                    <span
+                        class="material-symbols-outlined text-[18px] tracking-normal group-hover:rotate-12 transition-transform duration-300">smart_toy</span>
+
+                    <span>AI Analysis</span>
+                </button>
             <a href="{{ route('purchase.create') }}" 
                class="inline-flex items-center gap-2 bg-primary text-white hover:bg-primary/90 px-5 py-2.5 rounded-xl font-medium shadow-sm transition-all duration-200 text-sm">
                 <span class="material-symbols-outlined text-[20px]">add_circle</span>
@@ -82,7 +93,7 @@
                                         <form method="POST" action="{{ route('purchase.receive', $order->id) }}" class="inline">
                                             @csrf
                                             <button type="submit" 
-                                                    class="inline-flex items-center gap-1 text-xs font-bold bg-success text-white hover:bg-success/90 px-3 py-1.5 rounded-lg shadow-sm transition-all"
+                                                    class="inline-flex items-center gap-1 text-xs font-bold bg-green text-white hover:bg-green/90 px-3 py-1.5 rounded-lg shadow-sm transition-all"
                                                     title="Mark as Received and inject into stock">
                                                 <span class="material-symbols-outlined text-[14px]">download_for_offline</span>
                                                 <span>Receive</span>

@@ -4,9 +4,11 @@ namespace App\Services\AI;
 
 use App\Services\AI\Contexts\DashboardContextBuilder;
 use App\Services\AI\Contexts\ProductContextBuilder;
+use App\Services\AI\Contexts\PurchasesContextBuilder;
 use App\Services\AI\Contexts\SalesContextBuilder;
 use App\Services\AI\Prompts\DashboardPrompt;
 use App\Services\AI\Prompts\ProductsPrompt;
+use App\Services\AI\Prompts\PurchasesPrompt;
 use App\Services\AI\Prompts\SalesPrompt;
 
 class ModuleRegistry
@@ -29,6 +31,12 @@ class ModuleRegistry
             'icon' => 'point_of_sale',
             'context' => SalesContextBuilder::class,
             'prompt' => SalesPrompt::class,
+        ],
+        'purchases' => [
+            'title' => 'Purchases Intelligence',
+            'icon' => 'shopping_cart',
+            'context' => PurchasesContextBuilder::class,
+            'prompt' => PurchasesPrompt::class,
         ],
     ];
 
