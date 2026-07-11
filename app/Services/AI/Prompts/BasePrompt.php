@@ -2,7 +2,9 @@
 
 namespace App\Services\AI\Prompts;
 
-class BasePrompt
+use App\Services\AI\Contracts\AIPrompt;
+
+class BasePrompt implements AIPrompt
 {
     public function text(): string
     {

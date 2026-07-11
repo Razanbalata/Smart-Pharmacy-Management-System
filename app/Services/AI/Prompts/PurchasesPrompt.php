@@ -2,7 +2,9 @@
 
 namespace App\Services\AI\Prompts;
 
-class PurchasesPrompt
+use App\Services\AI\Contracts\AIPrompt;
+
+class PurchasesPrompt implements AIPrompt
 {
     public function text(): string
     {

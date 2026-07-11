@@ -2,7 +2,9 @@
 
 namespace App\Services\AI\Prompts;
 
-class DashboardPrompt
+use App\Services\AI\Contracts\AIPrompt;
+
+class DashboardPrompt implements AIPrompt
 {
     public function text(): string
     {

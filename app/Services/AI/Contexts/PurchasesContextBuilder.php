@@ -4,8 +4,9 @@ namespace App\Services\AI\Contexts;
 
 use App\Models\PurchaseItem;
 use App\Models\PurchaseOrder;
+use App\Services\AI\Contracts\AIContextBuilder;
 
-class PurchasesContextBuilder
+class PurchasesContextBuilder implements AIContextBuilder
 {
     public function build(): array
     {

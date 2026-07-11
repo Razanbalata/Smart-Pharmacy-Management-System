@@ -4,9 +4,10 @@ namespace App\Services\AI\Contexts;
 
 use App\Models\Product;
 use App\Models\StockMovement;
+use App\Services\AI\Contracts\AIContextBuilder;
 use Illuminate\Support\Facades\DB;
 
-class InventoryContextBuilder
+class InventoryContextBuilder implements AIContextBuilder
 {
     public function build(): array
     {

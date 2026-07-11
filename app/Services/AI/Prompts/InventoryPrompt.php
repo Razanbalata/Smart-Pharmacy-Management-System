@@ -2,7 +2,9 @@
 
 namespace App\Services\AI\Prompts;
 
-class InventoryPrompt
+use App\Services\AI\Contracts\AIPrompt;
+
+class InventoryPrompt implements AIPrompt
 {
     public function text(): string
     {
