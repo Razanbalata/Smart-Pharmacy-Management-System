@@ -8,6 +8,7 @@ use App\Services\AI\Contexts\ProductContextBuilder;
 use App\Services\AI\Contexts\PurchasesContextBuilder;
 use App\Services\AI\Contexts\ReportsContextBuilder;
 use App\Services\AI\Contexts\SalesContextBuilder;
+use App\Services\AI\Contexts\StockContextBuilder;
 use App\Services\AI\Contexts\SuppliersContextBuilder;
 use App\Services\AI\Prompts\DashboardPrompt;
 use App\Services\AI\Prompts\InventoryPrompt;
@@ -15,6 +16,7 @@ use App\Services\AI\Prompts\ProductsPrompt;
 use App\Services\AI\Prompts\PurchasesPrompt;
 use App\Services\AI\Prompts\ReportsPrompt;
 use App\Services\AI\Prompts\SalesPrompt;
+use App\Services\AI\Prompts\StockPrompt;
 use App\Services\AI\Prompts\SuppliersPrompt;
 
 class ModuleRegistry
@@ -75,6 +77,14 @@ class ModuleRegistry
             'color' => 'red',
             'context' => ReportsContextBuilder::class,
             'prompt' => ReportsPrompt::class,
+        ],
+        'stock' => [
+            'title' => 'Stock Intelligence',
+            'description' => 'Analyze stock levels and movement patterns',
+            'icon' => 'inventory_2',
+            'color' => 'cyan',
+            'context' => StockContextBuilder::class,
+            'prompt' => StockPrompt::class,
         ],
     ];
 
