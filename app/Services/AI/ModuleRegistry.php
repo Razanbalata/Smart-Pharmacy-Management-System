@@ -3,11 +3,13 @@
 namespace App\Services\AI;
 
 use App\Services\AI\Contexts\DashboardContextBuilder;
+use App\Services\AI\Contexts\InventoryContextBuilder;
 use App\Services\AI\Contexts\ProductContextBuilder;
 use App\Services\AI\Contexts\PurchasesContextBuilder;
 use App\Services\AI\Contexts\SalesContextBuilder;
 use App\Services\AI\Contexts\SuppliersContextBuilder;
 use App\Services\AI\Prompts\DashboardPrompt;
+use App\Services\AI\Prompts\InventoryPrompt;
 use App\Services\AI\Prompts\ProductsPrompt;
 use App\Services\AI\Prompts\PurchasesPrompt;
 use App\Services\AI\Prompts\SalesPrompt;
@@ -45,6 +47,12 @@ class ModuleRegistry
             'icon' => 'local_shipping',
             'context' => SuppliersContextBuilder::class,
             'prompt' => SuppliersPrompt::class,
+        ],
+        'inventory' => [
+            'title' => 'Inventory Intelligence',
+            'icon' => 'inventory',
+            'context' => InventoryContextBuilder::class,
+            'prompt' => InventoryPrompt::class,
         ],
     ];
 

@@ -11,7 +11,19 @@
             <p class="text-sm text-on-surface-variant dark:text-gray-400 mt-1">
                 Review and audit all incoming and outgoing inventory log activities.
             </p>
+            
         </div>
+        <button onclick="openAI('inventory')"
+                class="relative group overflow-hidden inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm shadow-[0_4px_20px_-4px_rgba(79,70,229,0.4)] hover:shadow-[0_4px_25px_rgba(79,70,229,0.6)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300">
+
+                <span
+                    class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></span>
+
+                <span
+                    class="material-symbols-outlined text-[18px] tracking-normal group-hover:rotate-12 transition-transform duration-300">smart_toy</span>
+
+                <span>AI Analysis</span>
+            </button>
     </div>
 
     <div class="bg-surface-container-low dark:bg-neutral-900/30 p-4 rounded-2xl border border-outline-variant/40 shadow-sm">
