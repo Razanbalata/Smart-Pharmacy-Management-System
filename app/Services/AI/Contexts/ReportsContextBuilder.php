@@ -4,10 +4,11 @@ namespace App\Services\AI\Contexts;
 
 use App\Models\Sale;
 use App\Models\SaleItem;
+use App\Services\AI\Contracts\AIContextBuilder;
 use App\Services\ReportService;
 use Illuminate\Support\Facades\DB;
 
-class ReportsContextBuilder
+class ReportsContextBuilder implements AIContextBuilder
 {
     public function __construct(
         private ReportService $reportService

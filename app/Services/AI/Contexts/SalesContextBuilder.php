@@ -4,8 +4,9 @@ namespace App\Services\AI\Contexts;
 
 use App\Models\Product;
 use App\Models\Sale;
+use App\Services\AI\Contracts\AIContextBuilder;
 
-class SalesContextBuilder
+class SalesContextBuilder implements AIContextBuilder
 {
     public function build(): array
     {

@@ -3,8 +3,9 @@
 namespace App\Services\AI\Contexts;
 
 use App\Models\Product;
+use App\Services\AI\Contracts\AIContextBuilder;
 
-class ProductContextBuilder
+class ProductContextBuilder implements AIContextBuilder
 {
     public function build(): array
     {

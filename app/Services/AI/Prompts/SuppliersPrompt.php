@@ -2,7 +2,9 @@
 
 namespace App\Services\AI\Prompts;
 
-class SuppliersPrompt
+use App\Services\AI\Contracts\AIPrompt;
+
+class SuppliersPrompt implements AIPrompt
 {
     public function text(): string
     {

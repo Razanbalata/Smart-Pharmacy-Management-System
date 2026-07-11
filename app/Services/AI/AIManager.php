@@ -5,10 +5,8 @@ namespace App\Services\AI;
 class AIManager
 {
     public function __construct(
+        private AIAnalyzer $analyzer,
         private ModuleRegistry $registry,
-        private PromptBuilder $promptBuilder,
-        private AIService $aiService,
-        private AIResponseFormatter $formatter
     ) {}
 
     public function analyze(string $module): array
@@ -33,32 +31,10 @@ class AIManager
 
         $context = $contextBuilder->build();
 
-        /*
-         * |
-         * | Build Prompt
-         * |
-         */
-
-        $prompt = $this->promptBuilder->build(
+        $result = $this->analyzer->analyze(
             $module,
             $context
         );
-
-        /*
-         * |
-         * | AI Request
-         * |
-         */
-
-        $response = $this->aiService->generate(
-            $prompt
-        );
-
-        $result = $this->formatter->format(
-            $response,
-            $context
-        );
-
         return array_merge(
             $result,
             [
@@ -66,6 +42,8 @@ class AIManager
                     'name' => $module,
                     'title' => $config['title'],
                     'icon' => $config['icon'],
+                    'description' => $config['description'],
+                    'color' => $config['color'],
                 ],
                 'generated_at' => now()->format(
                     'Y-m-d H:i:s'

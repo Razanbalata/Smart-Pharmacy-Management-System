@@ -2,9 +2,10 @@
 
 namespace App\Services\AI\Contexts;
 
+use App\Services\AI\Contracts\AIContextBuilder;
 use App\Services\DashboardService;
 
-class DashboardContextBuilder
+class DashboardContextBuilder implements AIContextBuilder
 {
     public function __construct(
         private DashboardService $dashboardService
