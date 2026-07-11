@@ -6,12 +6,14 @@ use App\Services\AI\Contexts\DashboardContextBuilder;
 use App\Services\AI\Contexts\InventoryContextBuilder;
 use App\Services\AI\Contexts\ProductContextBuilder;
 use App\Services\AI\Contexts\PurchasesContextBuilder;
+use App\Services\AI\Contexts\ReportsContextBuilder;
 use App\Services\AI\Contexts\SalesContextBuilder;
 use App\Services\AI\Contexts\SuppliersContextBuilder;
 use App\Services\AI\Prompts\DashboardPrompt;
 use App\Services\AI\Prompts\InventoryPrompt;
 use App\Services\AI\Prompts\ProductsPrompt;
 use App\Services\AI\Prompts\PurchasesPrompt;
+use App\Services\AI\Prompts\ReportsPrompt;
 use App\Services\AI\Prompts\SalesPrompt;
 use App\Services\AI\Prompts\SuppliersPrompt;
 
@@ -53,6 +55,12 @@ class ModuleRegistry
             'icon' => 'inventory',
             'context' => InventoryContextBuilder::class,
             'prompt' => InventoryPrompt::class,
+        ],
+        'reports' => [
+            'title' => 'Reports Intelligence',
+            'icon' => 'analytics',
+            'context' => ReportsContextBuilder::class,
+            'prompt' => ReportsPrompt::class,
         ],
     ];
 

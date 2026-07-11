@@ -11,9 +11,23 @@
                 Analyze sales, purchases, inventory, and pharmacy performance.
             </p>
         </div>
+        <div class='flex items-center gap-2'>
+            <button onclick="openAI('reports')"
+                class="relative group overflow-hidden inline-flex items-center gap-2.5 px-5 py-1.5 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm shadow-[0_4px_20px_-4px_rgba(79,70,229,0.4)] hover:shadow-[0_4px_25px_rgba(79,70,229,0.6)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300">
+
+                <span
+                    class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></span>
+
+                <span
+                    class="material-symbols-outlined text-[18px] tracking-normal group-hover:rotate-12 transition-transform duration-300">smart_toy</span>
+
+                <span>AI Analysis</span>
+            </button>
         <div class="flex items-center gap-2 text-xs font-mono-sm text-on-surface-variant bg-surface-container border border-outline-variant px-3 py-1.5 rounded-full w-fit">
+           
             <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
             <span>Data Updated Just Now</span>
+        </div>
         </div>
     </div>
 
