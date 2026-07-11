@@ -19,7 +19,7 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <a href="{{ route('inventory.stock') }}" class="group block p-6 rounded-2xl bg-surface-container-lowest dark:bg-surface-container-low border border-outline-variant dark:border-outline hover:border-primary dark:hover:border-primary-container hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <a href="{{ route('products.index') }}" class="group block p-6 rounded-2xl bg-surface-container-lowest dark:bg-surface-container-low border border-outline-variant dark:border-outline hover:border-primary dark:hover:border-primary-container hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
             <div class="flex items-start justify-between">
                 <div class="space-y-2">
                     <p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Inventory</p>
@@ -46,7 +46,7 @@
             </div>
         </a>
 
-        <a href="{{ route('inventory.low-stock') }}" class="group block p-6 rounded-2xl bg-surface-container-lowest dark:bg-surface-container-low border border-outline-variant dark:border-outline hover:border-amber-500 dark:hover:border-amber-400 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <a href="{{ route('products.low-stock') }}" class="group block p-6 rounded-2xl bg-surface-container-lowest dark:bg-surface-container-low border border-outline-variant dark:border-outline hover:border-amber-500 dark:hover:border-amber-400 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
             <div class="flex items-start justify-between">
                 <div class="space-y-2">
                     <p class="font-label-md text-label-md text-amber-600 dark:text-amber-400 uppercase tracking-wider">Attention Required</p>
@@ -65,7 +65,7 @@
             </div>
         </a>
 
-        <a href="{{ route('inventory.out-of-stock') }}" class="group block p-6 rounded-2xl bg-surface-container-lowest dark:bg-surface-container-low border border-outline-variant dark:border-outline hover:border-error dark:hover:border-error-container hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <a href="{{ route('products.low-stock') }}" class="group block p-6 rounded-2xl bg-surface-container-lowest dark:bg-surface-container-low border border-outline-variant dark:border-outline hover:border-error dark:hover:border-error-container hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
             <div class="flex items-start justify-between">
                 <div class="space-y-2">
                     <p class="font-label-md text-label-md text-error uppercase tracking-wider">Critical Deficit</p>
@@ -122,7 +122,7 @@
             </div>
         </a>
 
-        <a href="{{ route('inventory.movements') }}" class="group block p-6 rounded-2xl bg-surface-container-lowest dark:bg-surface-container-low border border-outline-variant dark:border-outline hover:border-secondary dark:hover:border-secondary-fixed hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <a href="#" class="group block p-6 rounded-2xl bg-surface-container-lowest dark:bg-surface-container-low border border-outline-variant dark:border-outline hover:border-secondary dark:hover:border-secondary-fixed hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
             <div class="flex items-start justify-between">
                 <div class="space-y-2">
                     <p class="font-label-md text-label-md text-secondary uppercase tracking-wider">Audit Trail</p>

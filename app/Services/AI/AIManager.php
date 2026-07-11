@@ -2,16 +2,10 @@
 
 namespace App\Services\AI;
 
-use App\Services\AI\Contexts\DashboardContextBuilder;
-use App\Services\AI\AIService;
-use App\Services\AI\Contexts\ProductContextBuilder;
-use App\Services\AI\PromptBuilder;
-
 class AIManager
 {
     public function __construct(
-        private DashboardContextBuilder $dashboardContextBuilder,
-        private ProductContextBuilder $productContextBuilder,
+        private ModuleRegistry $registry,
         private PromptBuilder $promptBuilder,
         private AIService $aiService,
         private AIResponseFormatter $formatter
@@ -19,23 +13,64 @@ class AIManager
 
     public function analyze(string $module): array
     {
-        $module = strtolower($module);
-        $context = match ($module) {
-            'dashboard' =>
-                $this->dashboardContextBuilder->build(),
-            'products' =>
-                $this->productContextBuilder->build(),
-            default =>
-                throw new \Exception('Unsupported AI module'),
-        };
+        /*
+         * |
+         * | Get Module Configuration
+         * |
+         */
+
+        $config = $this->registry->get($module);
+
+        /*
+         * |
+         * | Build Context
+         * |
+         */
+
+        $contextBuilder = app(
+            $config['context']
+        );
+
+        $context = $contextBuilder->build();
+
+        /*
+         * |
+         * | Build Prompt
+         * |
+         */
 
         $prompt = $this->promptBuilder->build(
             $module,
             $context
         );
 
-        $response = $this->aiService->generate($prompt);
+        /*
+         * |
+         * | AI Request
+         * |
+         */
 
-        return $this->formatter->format($response, $context);
+        $response = $this->aiService->generate(
+            $prompt
+        );
+
+        $result = $this->formatter->format(
+            $response,
+            $context
+        );
+
+        return array_merge(
+            $result,
+            [
+                'module' => [
+                    'name' => $module,
+                    'title' => $config['title'],
+                    'icon' => $config['icon'],
+                ],
+                'generated_at' => now()->format(
+                    'Y-m-d H:i:s'
+                )
+            ]
+        );
     }
 }

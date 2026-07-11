@@ -6,27 +6,13 @@ export default function () {
 
         module: null,
 
-        title: null,
+        moduleInfo: null,
 
         data: null,
-
-        generatedAt: null,
 
         init() {
             window.addEventListener("ai:open", (event) => {
                 this.module = event.detail.module;
-
-                const titles = {
-                    dashboard: "Dashboard Analysis",
-
-                    products: "Products Intelligence",
-
-                    sales: "Sales Intelligence",
-
-                    suppliers: "Supplier Analysis",
-                };
-
-                this.title = titles[this.module] ?? "AI Analysis";
 
                 this.open = true;
 
@@ -45,6 +31,7 @@ export default function () {
                 const result = await response.json();
 
                 this.data = result.data;
+                this.moduleInfo = result.data.module;
             } catch (error) {
                 console.error(error);
             } finally {
