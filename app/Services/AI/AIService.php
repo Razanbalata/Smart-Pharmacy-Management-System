@@ -84,4 +84,39 @@ class AIService
 
         return $result;
     }
+
+    public function generateText(string $prompt): string
+    {
+        $response = Http::withToken(
+            config('services.groq.key')
+        )
+            ->post(
+                'https://api.groq.com/openai/v1/chat/completions',
+                [
+                    'model' => 'llama-3.3-70b-versatile',
+                    'messages' => [
+                        [
+                            'role' => 'system',
+                            'content' => 'You are PharmaSmart AI Assistant.'
+                        ],
+                        [
+                            'role' => 'user',
+                            'content' => $prompt
+                        ]
+                    ],
+                    'temperature' => 0.4
+                ]
+            );
+
+        if ($response->failed()) {
+            throw new \Exception(
+                'AI request failed'
+            );
+        }
+
+        return $response
+            ->json(
+                'choices.0.message.content'
+            );
+    }
 }

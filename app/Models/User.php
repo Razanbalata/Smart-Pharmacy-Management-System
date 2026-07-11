@@ -14,6 +14,7 @@ class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -74,5 +75,12 @@ class User extends Authenticatable
     public function isCashier(): bool
     {
         return $this->role === 'cashier';
+    }
+
+    public function aiConversations()
+    {
+        return $this->hasMany(
+            AIConversation::class
+        );
     }
 }
