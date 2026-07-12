@@ -32,6 +32,11 @@
 
                 <span>AI Analysis</span>
             </button>
+            <button onclick="window.dispatchEvent(new CustomEvent('open-pdf-preview', { detail: { type: 'suppliers' } }))"
+                class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-gray-700 hover:bg-gray-50 font-medium text-sm rounded-xl transition-colors shadow-sm shadow-gray-100 border border-gray-200 group">
+                <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                Export PDF
+            </button>
             <a href="{{ route('suppliers.create') }}"
                 class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-xl transition-colors shadow-sm shadow-indigo-100 group">
                 <svg class="w-4 h-4 transition-transform group-hover:scale-110" fill="none" stroke="currentColor"
@@ -154,3 +159,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <x-pdf-preview-modal />
+@endpush

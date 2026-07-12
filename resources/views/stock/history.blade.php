@@ -13,6 +13,7 @@
             </p>
             
         </div>
+        <div>
         <button onclick="openAI('stock')"
                 class="relative group overflow-hidden inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm shadow-[0_4px_20px_-4px_rgba(79,70,229,0.4)] hover:shadow-[0_4px_25px_rgba(79,70,229,0.6)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300">
 
@@ -24,6 +25,12 @@
 
                 <span>AI Analysis</span>
             </button>
+            <button onclick="window.dispatchEvent(new CustomEvent('open-pdf-preview', { detail: { type: 'stock' } }))"
+                class="inline-flex items-center gap-2 bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 px-5 py-2.5 rounded-xl font-medium shadow-sm transition-all duration-200">
+                <span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+                <span>Export PDF</span>
+            </button>
+        </div>
     </div>
 
     <div class="bg-surface-container-low dark:bg-neutral-900/30 p-4 rounded-2xl border border-outline-variant/40 shadow-sm">
@@ -160,3 +167,7 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+    <x-pdf-preview-modal />
+@endpush
