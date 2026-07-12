@@ -35,6 +35,11 @@
 
                     <span>AI Analysis</span>
                 </button>
+                <button onclick="window.dispatchEvent(new CustomEvent('open-pdf-preview', { detail: { type: 'sales' } }))"
+                    class="inline-flex items-center gap-2 bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 px-5 py-3 rounded-xl font-medium shadow-sm transition-all duration-200">
+                    <span class="material-symbols-outlined text-[20px]">picture_as_pdf</span>
+                    <span>Export PDF</span>
+                </button>
                 <a href="{{ route('sales.create') }}"
                     class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition">
                     <span class="material-symbols-outlined">add</span>
@@ -196,3 +201,7 @@ shadow-lg @endif
             }
         });
     @endsection
+
+@push('scripts')
+    <x-pdf-preview-modal />
+@endpush

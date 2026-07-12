@@ -613,6 +613,7 @@
         }
     </script>
     <x-ai.drawer />
+    @stack('scripts')
 </body>
 
 </html>
