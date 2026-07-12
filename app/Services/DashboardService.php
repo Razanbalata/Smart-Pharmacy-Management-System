@@ -191,11 +191,50 @@ class DashboardService
     }
 
     public function inventoryValue()
-{
-    return Product::sum(
-        DB::raw(
-            'stock_quantity * purchase_price'
+    {
+        return Product::sum(
+            DB::raw(
+                'stock_quantity * purchase_price'
+            )
+        );
+    }
+
+    public function salesTrend(
+        int $days = 7
+    ) {
+        $sales = Sale::where(
+            'pharmacy_id',
+            auth()->user()->pharmacy_id
         )
-    );
-}
+            ->where(
+                'created_at',
+                '>=',
+                now()->subDays($days)
+            )
+            ->selectRaw(
+                'DATE(created_at) as date,
+            SUM(total) as total'
+            )
+            ->groupBy('date')
+            ->pluck(
+                'total',
+                'date'
+            );
+
+        return collect(
+            range($days - 1, 0)
+        )
+            ->map(function ($day) use ($sales) {
+                $date =
+                    now()
+                        ->subDays($day)
+                        ->format('Y-m-d');
+
+                return [
+                    'date' => $date,
+                    'total' =>
+                        $sales[$date] ?? 0
+                ];
+            });
+    }
 }
