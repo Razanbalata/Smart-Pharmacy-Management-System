@@ -142,13 +142,16 @@ class AIChatManager
                 ->firstOrFail();
         }
 
-        return AIConversation::create([
-            'user_id' =>
-                Auth::id(),
-            'pharmacy_id' =>
-                Auth::user()->pharmacy_id ?? null,
-            'title' =>
-                'New AI Conversation'
-        ]);
+        return AIConversation::firstOrCreate(
+            [
+                'user_id' => Auth::id(),
+            ],
+            [
+                'pharmacy_id' =>
+                    Auth::user()->pharmacy_id ?? null,
+                'title' =>
+                    'New AI Conversation'
+            ]
+        );
     }
 }
