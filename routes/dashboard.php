@@ -4,4 +4,17 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Inventory\InventoryReportController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified', 'active','pharmacy'])->name('dashboard');
+Route::middleware(['auth', 'active', 'pharmacy'])
+    ->group(function () {
+        Route::get(
+            '/dashboard',
+            [DashboardController::class, 'index']
+        )
+            ->name('dashboard');
+
+        Route::get(
+            '/dashboard/sales-trend',
+            [DashboardController::class, 'salesTrend']
+        )
+            ->name('dashboard.salesTrend');
+    });

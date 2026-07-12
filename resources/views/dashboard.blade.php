@@ -134,49 +134,23 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div
-                class="lg:col-span-2 bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm flex flex-col">
-                <div class="flex justify-between items-center mb-8">
-                    <h4 class="font-headline-sm text-headline-sm">Sales Trends Analytics</h4>
-                    <span class="text-xs text-on-surface-variant font-mono-sm">Data connected to ChartJS/SVG</span>
-                </div>
-                <div class="flex-1 min-h-[300px] w-full relative flex items-end gap-2">
-                    <div class="absolute inset-0 flex flex-col justify-between py-2">
-                        <div class="w-full border-t border-outline-variant/30 flex justify-end"><span
-                                class="text-[10px] text-outline-variant mt-1">6k JD</span></div>
-                        <div class="w-full border-t border-outline-variant/30 flex justify-end"><span
-                                class="text-[10px] text-outline-variant mt-1">4k JD</span></div>
-                        <div class="w-full border-t border-outline-variant/30 flex justify-end"><span
-                                class="text-[10px] text-outline-variant mt-1">2k JD</span></div>
-                        <div class="w-full border-t border-outline-variant flex justify-end"><span
-                                class="text-[10px] text-outline-variant mt-1">0 JD</span></div>
-                    </div>
-                    <svg class="absolute bottom-0 left-0 w-full h-[260px] overflow-visible pointer-events-none"
-                        viewbox="0 0 1000 300">
-                        <defs>
-                            <lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
-                                <stop offset="0%" stop-color="rgba(79, 70, 229, 0.2)"></stop>
-                                <stop offset="100%" stop-color="rgba(79, 70, 229, 0)"></stop>
-                            </lineargradient>
-                        </defs>
-                        <path
-                            d="M0,250 Q50,220 100,230 T200,180 T300,210 T400,140 T500,160 T600,100 T700,120 T800,60 T900,80 T1000,40"
-                            fill="none" stroke="#3525cd" stroke-width="3"></path>
-                        <path
-                            d="M0,250 Q50,220 100,230 T200,180 T300,210 T400,140 T500,160 T600,100 T700,120 T800,60 T900,80 T1000,40 V300 H0 Z"
-                            fill="url(#chartGradient)"></path>
-                    </svg>
-                    <div class="absolute bottom-0 left-0 w-full flex justify-between px-2 pt-4">
-                        <span class="font-mono-sm text-mono-sm text-on-surface-variant">MON</span>
-                        <span class="font-mono-sm text-mono-sm text-on-surface-variant">TUE</span>
-                        <span class="font-mono-sm text-mono-sm text-on-surface-variant">WED</span>
-                        <span class="font-mono-sm text-mono-sm text-on-surface-variant">THU</span>
-                        <span class="font-mono-sm text-mono-sm text-on-surface-variant">FRI</span>
-                        <span class="font-mono-sm text-mono-sm text-on-surface-variant">SAT</span>
-                        <span class="font-mono-sm text-mono-sm text-on-surface-variant">SUN</span>
-                    </div>
-                </div>
-            </div>
+            <div class="lg:col-span-2 bg-surface-container-lowest p-6 rounded-xl border border-outline-variant shadow-sm flex flex-col">
+    <div class="flex justify-between items-center mb-6">
+        <h4 class="font-headline-sm text-base md:text-lg font-bold text-on-surface">Sales Trends Analytics</h4>
+        <div class="relative">
+            <select id="salesPeriod" class="appearance-none pr-9 pl-3 py-1.5 text-sm font-medium border border-outline-variant rounded-lg bg-white text-on-surface-variant focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all cursor-pointer shadow-sm">
+                <option value="7">Last 7 Days</option>
+                <option value="30">Last 30 Days</option>
+                <option value="365">This Year</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-sm text-outline-variant">expand_more</span>
+        </div>
+    </div>
+    
+    <div class="flex-1 min-h-[320px] w-full relative">
+        <canvas id="salesChart"></canvas>
+    </div>
+</div>
 
             <div
                 class="bg-surface-container-low p-6 rounded-xl border border-primary-container/30 flex flex-col justify-between">
@@ -332,4 +306,129 @@
             });
         </script>
     @endif
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+       let salesChart;
+
+function renderSalesChart(data) {
+    const canvas = document.getElementById('salesChart');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+
+    // تحويل التواريخ القادمة من الـ API إلى أسماء أيام/أشهر ديناميكية
+    const labels = data.map(item => {
+        return new Date(item.date).toLocaleDateString('en-US', { weekday: 'short' });
+    });
+    const values = data.map(item => item.total);
+
+    // بناء التدرج اللوني الاحترافي أسفل المنحنى
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(53, 37, 205, 0.22)'); // لون الـ Primary الثابت مع شفافية مناسبة
+    gradient.addColorStop(1, 'rgba(53, 37, 205, 0.0)');   // يتلاشى تماماً عند القاع
+
+    if (salesChart) {
+        salesChart.destroy();
+    }
+
+    salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Sales',
+                data: values,
+                borderColor: '#3525cd', // لون الخط الأساسي
+                borderWidth: 3,
+                backgroundColor: gradient,
+                fill: true,
+                tension: 0.38, // انحناء انسيابي سلس للمنحنى دون مبالغة
+                pointBackgroundColor: '#3525cd',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 1.5,
+                pointRadius: 2,
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            plugins: {
+                legend: {
+                    display: false // إخفاء عناصر التوضيح الزائدة لمظهر الـ Minimalist
+                },
+                tooltip: {
+                    backgroundColor: '#213145', // متناسق مع لون الـ inverse-surface في لوحتك
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    titleFont: { family: 'Inter', size: 12, weight: '600' },
+                    bodyFont: { family: 'Inter', size: 13, weight: '700' },
+                    padding: 12,
+                    cornerRadius: 8,
+                    displayColors: false,
+                    callbacks: {
+                        label: function(context) {
+                            return ` Total: ${context.parsed.y.toLocaleString(undefined, {minimumFractionDigits: 2})} JD`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false // إخفاء خطوط الشبكة الطولية لجعل المظهر مريحاً للعين
+                    },
+                    ticks: {
+                        color: '#6e6d81', // on-surface-variant ناعم
+                        font: { family: 'Inter', size: 11, weight: '500' },
+                        padding: 8
+                    }
+                },
+                y: {
+                    grid: {
+                        color: 'rgba(199, 196, 216, 0.25)', // خطوط شبكة أفقية ناعمة جداً وخلفية
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: '#6e6d81',
+                        font: { family: 'Inter', size: 11 },
+                        padding: 8,
+                        callback: function(value) {
+                            // تنسيق الأرقام تلقائياً لتظهر بشكل k في الأرقام الكبيرة (مثل 4k JD) أو أرقام عادية
+                            if (value >= 1000) {
+                                return (value / 1000).toFixed(0) + 'k JD';
+                            }
+                            return value + ' JD';
+                        }
+                    },
+                    min: 0
+                }
+            }
+        }
+    });
+}
+
+function loadSalesTrend(period) {
+    fetch(`{{ route('dashboard.salesTrend') }}?period=${period}`)
+        .then(response => response.json())
+        .then(result => {
+            renderSalesChart(result.data);
+        })
+        .catch(error => console.error('Error fetching trend data:', error));
+}
+
+// تشغيل وربط الأحداث عند تحميل المستند
+document.addEventListener("DOMContentLoaded", function() {
+    loadSalesTrend(7);
+
+    document.getElementById('salesPeriod').addEventListener('change', function() {
+        loadSalesTrend(this.value);
+    });
+});</script>
 @endsection

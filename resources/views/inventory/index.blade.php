@@ -179,7 +179,7 @@
                     </div>
                     <div
                         class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                        <span class="material-symbols-outlined text-2xl">swap_page</span>
+                        <span class="material-symbols-outlined text-2xl">published_with_changes</span>
                     </div>
                 </div>
                 <div class="mt-6 pt-4 border-t border-outline-variant/60 flex items-center justify-between text-xs">

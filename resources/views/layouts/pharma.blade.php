@@ -146,15 +146,17 @@
     </style>
 </head>
 
-<body class="bg-background text-on-background min-h-screen flex relative overflow-x-hidden">
+<body class="overflow-y-auto bg-background text-on-background min-h-screen flex relative overflow-x-hidden">
     <div id="sidebar-overlay"
         class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden md:hidden transition-opacity duration-200">
     </div>
-
     <aside id="main-sidebar"
-        class="w-72 md:w-[sidebar-width] min-h-screen fixed md:sticky top-0 left-0 flex-col bg-surface-container-lowest dark:bg-surface-container-low border-r border-outline-variant dark:border-outline shadow-sm z-50 hidden md:flex transition-transform duration-300 -translate-x-full md:translate-x-0">
-        <div class="flex flex-col p-4 gap-stack-md h-full overflow-y-auto">
-            <div class="flex justify-between items-center mb-6 px-2">
+        class="w-72 md:w-[sidebar-width] h-screen sticky top-0 left-0 flex flex-col bg-surface-container-lowest dark:bg-surface-container-low border-r border-outline-variant dark:border-outline shadow-sm z-50 hidden md:flex transition-transform duration-300 -translate-x-full md:translate-x-0">
+
+        <!-- محتوى السايدبار الداخلي هو اللي مسموح له يعمل سكرول لو كبر -->
+        <div class="flex flex-col p-4 gap-stack-md h-full overflow-y-auto scroll-hide">
+
+            <div class="flex justify-between items-center mb-6 px-2 shrink-0">
                 <div>
                     <h1
                         class="font-display-lg text-2xl md:text-display-lg font-bold text-primary dark:text-primary-container">
@@ -168,12 +170,13 @@
             </div>
 
             <a href="{{ route('sales.create') }}"
-                class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition">
+                class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white hover:bg-primary/90 transition shrink-0">
                 <span class="material-symbols-outlined">add</span>
                 New Sale
             </a>
 
-            <nav class="flex-1 space-y-1">
+            <!-- الـ nav الداخلي -->
+            <nav class="flex-1 space-y-1 overflow-y-auto pr-1 custom-scrollbar">
                 <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('dashboard') || request()->is('dashboard*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
                     href="{{ route('dashboard') }}">
                     <span class="material-symbols-outlined">dashboard</span>
@@ -229,18 +232,41 @@
                 </a>
             </nav>
 
-            <div class="mt-auto pt-4 border-t border-outline-variant space-y-1">
-                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('pharmacy.settings*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
-                    href="{{ route('pharmacy.settings') }}">
-                    <span class="material-symbols-outlined">settings</span>
-                    <span class="font-label-md text-label-md">Settings</span>
-                </a>
-                <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200"
-                    href="#">
-                    <span class="material-symbols-outlined">help</span>
-                    <span class="font-label-md text-label-md">Support</span>
-                </a>
-                <div class="mt-4 flex items-center gap-3 px-2">
+            <div class="mt-auto pt-4 border-t border-outline-variant dark:border-outline space-y-3 shrink-0">
+                <div class="px-1">
+                    <a href="{{ route('ai.chat') }}"
+                        class="ai-glow flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-primary/10 to-primary-container/5 border {{ request()->routeIs('ai.chat') ? 'border-primary ring-2 ring-primary/20 bg-primary/10' : 'border-primary/20 hover:border-primary/60' }} transition-all duration-300 group">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center shadow-sm flex-shrink-0">
+                                <span class="material-symbols-outlined text-[20px] animate-pulse">smart_toy</span>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-primary dark:text-primary-container">PharmaSmart AI</p>
+                                <p class="text-[10px] text-on-surface-variant">Ask your assistant</p>
+                            </div>
+                        </div>
+                        <span
+                            class="material-symbols-outlined text-primary text-sm group-hover:translate-x-1 transition-transform">
+                            arrow_forward
+                        </span>
+                    </a>
+                </div>
+
+                <div class="space-y-1">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('pharmacy.settings*') ? 'border-l-4 border-primary bg-surface-container-low dark:bg-secondary-container/20 text-primary dark:text-primary-container font-semibold' : 'text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container dark:hover:bg-on-secondary-fixed-variant/10' }} transition-colors duration-200"
+                        href="{{ route('pharmacy.settings') }}">
+                        <span class="material-symbols-outlined">settings</span>
+                        <span class="font-label-md text-label-md">Settings</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors duration-200"
+                        href="#">
+                        <span class="material-symbols-outlined">help</span>
+                        <span class="font-label-md text-label-md">Support</span>
+                    </a>
+                </div>
+
+                <div class="pt-2 flex items-center gap-3 px-2">
                     <img class="w-10 h-10 rounded-full bg-surface-container-highest object-cover"
                         data-alt="A professional headshot..."
                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq2Q-sgmlUPrDSJ1k9JAYndLXfZNfxPJDe0MpbzTS1_dskyjdlFM-CJpR5nGX7wYWi05RM_xFHIo7-BZ22lcD2feC2zTio6Z-adjFuHdbxF3N1oUaCH2RFhQR3lPjMwr18Si9QtY6iLduiVKi7TtCWXHd9FdJT0ws7-HOJD3CIPnS57dcNFJn3lfbNZVv4i3DDJT52e3r6tFguxmSj0HPwBpJPLjua5cN3XgzwKwRZHI0MaKTGxNIX" />
@@ -253,7 +279,7 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col min-h-screen overflow-x-hidden overflow-y-auto scroll-hide">
+    <main class="flex-1 flex flex-col min-h-screen overflow-x-hidden scroll-hide">
         <header
             class="h-16 w-full sticky top-0 z-40 bg-surface/95 backdrop-blur-md border-b border-outline-variant dark:border-outline">
             <div
