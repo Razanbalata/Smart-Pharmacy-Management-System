@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 class StockController extends Controller
 {
     use AuthorizesRequests;
+
     public function history(Request $request)
     {
         $this->authorize('viewAny', Product::class);
@@ -34,7 +35,15 @@ class StockController extends Controller
 
         $movements = $query->latest()->paginate(20);
 
-        return view('stock.history', compact('movements'));
+        // جلب أنواع الحركات الموجودة فعلياً
+        $movementTypes = StockMovement::select('type')
+            ->distinct()
+            ->pluck('type');
+
+        return view('stock.history', compact(
+            'movements',
+            'movementTypes'
+        ));
     }
 
     public function showAdjustForm()
@@ -48,8 +57,8 @@ class StockController extends Controller
     {
         $request->validate([
             'product_id' => 'required|exists:products,id',
-            'quantity'   => 'required|integer|min:0',
-            'reason'     => 'nullable|string'
+            'quantity' => 'required|integer|min:0',
+            'reason' => 'nullable|string'
         ]);
 
         $product = Product::findOrFail($request->product_id);

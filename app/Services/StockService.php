@@ -23,8 +23,9 @@ class StockService
 
             StockMovement::create([
                 'product_id' => $product->id,
+                'pharmacy_id' => $product->pharmacy_id,
                 'user_id' => $userId,
-                'type' =>  $type,
+                'type' => $type,
                 'quantity' => $quantity,
                 'reason' => $reason ?? 'Stock IN',
                 'notes' => $notes,
@@ -54,6 +55,7 @@ class StockService
 
             StockMovement::create([
                 'product_id' => $product->id,
+                'pharmacy_id' => $product->pharmacy_id,
                 'user_id' => $userId,
                 'type' => $type,
                 'quantity' => $quantity,
@@ -63,15 +65,13 @@ class StockService
         });
     }
 
-
     public function adjustStock(Product $product, int $newQuantity, $userId, $reason = null)
     {
         DB::transaction(function () use ($product, $newQuantity, $userId, $reason) {
-
             $oldQuantity = $product->stock_quantity;
 
             if ($newQuantity < 0) {
-                throw new \Exception("Stock cannot be negative");
+                throw new \Exception('Stock cannot be negative');
             }
 
             $difference = $newQuantity - $oldQuantity;
@@ -84,11 +84,12 @@ class StockService
             // تسجيل الحركة
             StockMovement::create([
                 'product_id' => $product->id,
-                'user_id'    => $userId,
-                'type'       => 'adjustment',
-                'quantity'   => $difference,
-                'reason'     => $reason ?? 'Stock Adjustment',
-                'notes'      => "Old: $oldQuantity | New: $newQuantity"
+                'pharmacy_id' => $product->pharmacy_id,
+                'user_id' => $userId,
+                'type' => 'adjustment',
+                'quantity' => $difference,
+                'reason' => $reason ?? 'Stock Adjustment',
+                'notes' => "Old: $oldQuantity | New: $newQuantity"
             ]);
         });
     }

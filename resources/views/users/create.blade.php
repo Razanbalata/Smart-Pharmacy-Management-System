@@ -17,7 +17,7 @@
                     <input type="text" 
                            id="name"
                            name="name" 
-                           value="{{ old('name') }}"
+                           value="New Cashier"
                            placeholder="John Doe" 
                            class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/60 bg-transparent text-on-surface dark:text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all @error('name') border-error focus:ring-error focus:border-error @enderror"
                            required>
@@ -32,7 +32,7 @@
                 <input type="email" 
                        id="email"
                        name="email" 
-                       value="{{ old('email') }}"
+                       value="cashier3@pharmacy.com"
                        placeholder="name@pharmasmart.com" 
                        class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/60 bg-transparent text-on-surface dark:text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all @error('email') border-error focus:ring-error focus:border-error @enderror"
                        required>
@@ -46,6 +46,7 @@
                 <input type="password" 
                        id="password"
                        name="password" 
+                       value='password'
                        placeholder="••••••••" 
                        class="w-full px-4 py-2.5 rounded-xl border border-outline-variant/60 bg-transparent text-on-surface dark:text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all @error('password') border-error focus:ring-error focus:border-error @enderror"
                        required>

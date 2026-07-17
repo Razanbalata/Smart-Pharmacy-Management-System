@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Pharmacy;
-use App\Models\Purchase;
-use App\Models\Supplier;
 use App\Models\Product;
 use App\Models\PurchaseOrder;
+use App\Models\Supplier;
 use App\Models\User;
+use App\Services\StockService;
 use Illuminate\Database\Seeder;
 
 class PurchaseSeeder extends Seeder
@@ -16,12 +16,31 @@ class PurchaseSeeder extends Seeder
     {
         $suppliers = Supplier::all();
         $products = Product::all();
-        $user = User::query()->where('role', 'admin')->first();
+        $user = User::where('role', 'admin')->first();
         $pharmacy = Pharmacy::first();
+        $stockService = new StockService();
 
-        for ($i = 1; $i <= 10; $i++) {
+        $purchases = [
+            [
+                'supplier' => 1,
+                'products' => [1, 2, 3],
+            ],
+            [
+                'supplier' => 2,
+                'products' => [4, 5, 6],
+            ],
+            [
+                'supplier' => 3,
+                'products' => [7, 8],
+            ],
+            [
+                'supplier' => 4,
+                'products' => [1, 3, 7],
+            ],
+        ];
 
-            $supplier = $suppliers->random();
+        foreach ($purchases as $data) {
+            $supplier = $suppliers->find($data['supplier']);
 
             $purchase = PurchaseOrder::create([
                 'supplier_id' => $supplier->id,
@@ -31,31 +50,35 @@ class PurchaseSeeder extends Seeder
                 'pharmacy_id' => $pharmacy->id,
             ]);
 
-            $subtotal = 0;
+            $total = 0;
 
-            // كل Purchase فيها 3-5 منتجات
-            $items = $products->random(rand(3, 5));
+            foreach ($data['products'] as $productId) {
+                $product = $products->find($productId);
 
-            foreach ($items as $product) {
+                $quantity = rand(20, 60);
 
-                $quantity = rand(10, 50);
-                $unitPrice = $product->purchase_price;
+                $cost = $product->purchase_price;
 
-                $itemSubtotal = $quantity * $unitPrice;
-                $subtotal += $itemSubtotal;
+                $total += $quantity * $cost;
 
                 $purchase->items()->create([
                     'product_id' => $product->id,
                     'quantity' => $quantity,
-                    'cost' => $unitPrice,
+                    'cost' => $cost,
                 ]);
 
-                // 🔥 مهم جدًا: تحديث المخزون
-                $product->increment('stock_quantity', $quantity);
+                $stockService->addStock(
+                    $product,
+                    $quantity,
+                    $user->id,
+                    'purchase',
+                    'Stock received from purchase order',
+                    'Purchase Order #' . $purchase->id
+                );
             }
 
             $purchase->update([
-                'total_cost' => $subtotal,
+                'total_cost' => $total
             ]);
         }
     }

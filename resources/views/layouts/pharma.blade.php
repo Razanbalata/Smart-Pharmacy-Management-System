@@ -266,14 +266,24 @@
                     </a>
                 </div>
 
-                <div class="pt-2 flex items-center gap-3 px-2">
-                    <img class="w-10 h-10 rounded-full bg-surface-container-highest object-cover"
+                <div class="pt-2 flex items-center justify-between gap-3 px-2">
+                    <div class='flex items-center justify-between gap-2'>
+                        <img class="w-10 h-10 rounded-full bg-surface-container-highest object-cover"
                         data-alt="A professional headshot..."
                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq2Q-sgmlUPrDSJ1k9JAYndLXfZNfxPJDe0MpbzTS1_dskyjdlFM-CJpR5nGX7wYWi05RM_xFHIo7-BZ22lcD2feC2zTio6Z-adjFuHdbxF3N1oUaCH2RFhQR3lPjMwr18Si9QtY6iLduiVKi7TtCWXHd9FdJT0ws7-HOJD3CIPnS57dcNFJn3lfbNZVv4i3DDJT52e3r6tFguxmSj0HPwBpJPLjua5cN3XgzwKwRZHI0MaKTGxNIX" />
                     <div class="overflow-hidden">
                         <p class="font-label-md text-label-md truncate">{{ auth()->user()->name }}</p>
                         <p class="text-[10px] text-on-surface-variant">{{ auth()->user()->role }}</p>
                     </div>
+                    </div>
+                    <form method="POST" action="{{ route('logout') }}" class="flex items-center m-0">
+                        @csrf
+                        <button type="submit" title="Logout"
+                            class="flex items-center justify-center p-2 rounded-lg text-error hover:bg-error/10 dark:hover:bg-error-container/20 transition-colors duration-200"
+                            onclick="return confirm('Are you sure you want to logout?')">
+                            <span class="material-symbols-outlined text-[22px]">logout</span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

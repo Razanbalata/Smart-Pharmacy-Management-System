@@ -16,6 +16,6 @@ class PurchaseOrderPolicy
 
     public function receive(User $user)
     {
-        return $user->role === 'admin';
+        return in_array($user->role, ['admin', 'pharmacist']);
     }
 }
