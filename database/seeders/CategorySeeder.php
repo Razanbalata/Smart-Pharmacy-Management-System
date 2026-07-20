@@ -12,91 +12,45 @@ class CategorySeeder extends Seeder
     {
         $pharmacy = Pharmacy::first();
         $categories = [
-
             [
                 'name' => 'Pain Relief',
-                'description' => 'Medications used to relieve pain and inflammation.',
-                'status' => 'active',
-                'pharmacy_id' => $pharmacy->id,
+                'description' => 'Medicines for pain and fever relief',
             ],
-
             [
                 'name' => 'Antibiotics',
-                'description' => 'Drugs used to treat bacterial infections.',
-                'status' => 'active',
-                'pharmacy_id' => $pharmacy->id,
+                'description' => 'Medicines used to treat bacterial infections',
             ],
-
             [
                 'name' => 'Vitamins & Supplements',
-                'description' => 'Nutritional supplements to support health.',
-                'status' => 'active',
-                'pharmacy_id' => $pharmacy->id,
+                'description' => 'Health supplements and vitamins',
             ],
-
+            [
+                'name' => 'Cold & Flu',
+                'description' => 'Cold, cough and flu medicines',
+            ],
             [
                 'name' => 'Diabetes Care',
-                'description' => 'Medications and tools for diabetes management.',
-                'status' => 'active',
-                'pharmacy_id' => $pharmacy->id,
+                'description' => 'Diabetes treatment products',
             ],
-
-            [
-                'name' => 'Heart & Blood Pressure',
-                'description' => 'Cardiovascular medications.',
-                'status' => 'active',
-                'pharmacy_id' => $pharmacy->id,
-            ],
-
-            [
-                'name' => 'Digestive System',
-                'description' => 'Medicines for stomach and digestion problems.',
-                'status' => 'active',
-                'pharmacy_id' => $pharmacy->id,
-            ],
-
             [
                 'name' => 'Skin Care',
-                'description' => 'Creams and treatments for skin conditions.',
-                'status' => 'active',
-                'pharmacy_id' => $pharmacy->id,
+                'description' => 'Skin and dermatology products',
             ],
-
             [
                 'name' => 'Baby Care',
-                'description' => 'Products specially designed for babies.',
-                'status' => 'active',
-                'pharmacy_id' => $pharmacy->id,
+                'description' => 'Baby health and hygiene products',
             ],
-
             [
-                'name' => 'Medical Supplies',
-                'description' => 'Basic medical tools and supplies.',
-                'status' => 'active',
-                'pharmacy_id' => $pharmacy->id,
-            ],
-
-            [
-                'name' => 'Personal Care',
-                'description' => 'Daily hygiene and personal health products.',
-                'status' => 'active',   
-                'pharmacy_id' => $pharmacy->id,
-            ],
-
-            [
-                'name' => 'Respiratory Care',
-                'description' => 'Medicines for respiratory conditions.',
-                'status' => 'active',
-                'pharmacy_id' => $pharmacy->id,
+                'name' => 'Medical Equipment',
+                'description' => 'Medical devices and equipment',
             ],
         ];
 
         foreach ($categories as $category) {
-
-            Category::updateOrCreate(
-                ['name' => $category['name']],
-                $category
-            );
+            Category::create([
+                ...$category,
+                'pharmacy_id' => $pharmacy->id,
+                ]);
         }
     }
 }

@@ -73,7 +73,7 @@
                     <div class="space-y-1.5">
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Pharmacy Name
                             <span class="text-error">*</span></label>
-                        <input type="text" name="name" required
+                        <input type="text" name="name" required value="CareFirst Pharmacy Central"
                             class="mt-1 block w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-brand-text shadow-sm focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 focus:outline-none transition-all duration-200 placeholder:text-slate-300 text-sm"
                             placeholder="e.g. CareFirst Pharmacy">
                     </div>
@@ -81,7 +81,7 @@
                     <div class="space-y-1.5">
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Phone Number
                             <span class="text-error">*</span></label>
-                        <input type="text" name="phone" required
+                        <input type="text" name="phone" required value="+970 599 123 456"
                             class="mt-1 block w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-brand-text shadow-sm focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 focus:outline-none transition-all duration-200 placeholder:text-slate-300 text-sm"
                             placeholder="e.g. +970 599 000 000">
                     </div>
@@ -89,7 +89,7 @@
                     <div class="space-y-1.5">
                         <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Pharmacy Email
                             <span class="text-slate-400 font-normal lowercase">(optional)</span></label>
-                        <input type="email" name="email"
+                        <input type="email" name="email" value="info@carefirst-pharmacy.com"
                             class="mt-1 block w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-brand-text shadow-sm focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 focus:outline-none transition-all duration-200 placeholder:text-slate-300 text-sm"
                             placeholder="contact@pharmacy.com">
                     </div>
@@ -97,7 +97,7 @@
                     <div class="space-y-1.5">
                         <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">License Number
                             <span class="text-slate-400 font-normal lowercase">(optional)</span></label>
-                        <input type="text" name="license_number"
+                        <input type="text" name="license_number" value="LIC-2026-8849"
                             class="mt-1 block w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-brand-text shadow-sm focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 focus:outline-none transition-all duration-200 placeholder:text-slate-300 text-sm"
                             placeholder="e.g. LIC-2026-XXXX">
                     </div>
@@ -105,11 +105,10 @@
                 </div>
 
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Address / Physical
-                        Location</label>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Address / Physical Location</label>
                     <textarea name="address" rows="2"
                         class="mt-1 block w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-brand-text shadow-sm focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 focus:outline-none transition-all duration-200 placeholder:text-slate-300 text-sm resize-none"
-                        placeholder="Street, Building, City..."></textarea>
+                        placeholder="Street, Building, City...">Main Street, Al-Najah Building, 2nd Floor, Nablus</textarea>
                 </div>
 
                 <div class="space-y-1.5">
@@ -154,11 +153,8 @@
                     const icon = document.getElementById('logo-icon');
                     const uploadText = document.getElementById('upload-text');
 
-                    // تعيين الصورة المرفوعة كخلفية للمربع الصغير
                     container.style.backgroundImage = `url('${e.target.result}')`;
-                    // إخفاء الأيقونة الافتراضية للجمالية
                     icon.style.display = 'none';
-                    // تغيير النص ليوضح أنه تم اختيار صورة
                     uploadText.textContent = "Change logo image";
                 };
                 reader.readAsDataURL(file);
